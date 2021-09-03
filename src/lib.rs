@@ -1,3 +1,4 @@
+pub mod error;
 pub mod subclass;
 
 pub use self::subclass::*;

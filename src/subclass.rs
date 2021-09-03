@@ -1,3 +1,7 @@
+use std::convert::TryFrom;
+
+use crate::error::ParseError;
+
 pub enum Warning {
     CursorOperationConflict,
     DisconnectError,
@@ -17,6 +21,34 @@ pub enum Warning {
     SqlJavaPathTooLongForInformationSchema,
     InvalidNumberOfConditions,
     ArrayDataRightTruncation,
+}
+
+impl TryFrom<&str> for Warning {
+    type Error = ParseError;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "001" => Ok(Self::CursorOperationConflict),
+            "002" => Ok(Self::DisconnectError),
+            "003" => Ok(Self::NullValueEliminatedInSetFunction),
+            "004" => Ok(Self::StringDataRightTruncation),
+            "005" => Ok(Self::InsufficientItemDescriptorAreas),
+            "006" => Ok(Self::PrivilegeNotRevoked),
+            "007" => Ok(Self::PrivilegeNotGranted),
+            "009" => Ok(Self::SearchConditionTooLongForInformationSchema),
+            "00A" => Ok(Self::QueryExpressionTooLongForInformationSchema),
+            "00B" => Ok(Self::DefaultValueTooLongForInformationSchema),
+            "00C" => Ok(Self::ResultSetsReturned),
+            "00D" => Ok(Self::AdditionalResultSetsReturned),
+            "00E" => Ok(Self::AttemptToReturnTooManyResultSets),
+            "00F" => Ok(Self::StatementTooLongForInformationSchema),
+            "010" => Ok(Self::ColumnCannotBeMapped),
+            "011" => Ok(Self::SqlJavaPathTooLongForInformationSchema),
+            "012" => Ok(Self::InvalidNumberOfConditions),
+            "02F" => Ok(Self::ArrayDataRightTruncation),
+            other => Err(ParseError::UnknownSubclass(other.to_string())),
+        }
+    }
 }
 
 pub enum NoData {
