@@ -51,6 +51,33 @@ impl TryFrom<&str> for Warning {
     }
 }
 
+impl Warning {
+    pub fn as_str(&self) -> &'static str {
+        use Warning::*;
+
+        match self {
+            CursorOperationConflict => "001",
+            DisconnectError => "002",
+            NullValueEliminatedInSetFunction => "003",
+            StringDataRightTruncation => "004",
+            InsufficientItemDescriptorAreas => "005",
+            PrivilegeNotRevoked => "006",
+            PrivilegeNotGranted => "007",
+            SearchConditionTooLongForInformationSchema => "009",
+            QueryExpressionTooLongForInformationSchema => "00A",
+            DefaultValueTooLongForInformationSchema => "00B",
+            ResultSetsReturned => "00C",
+            AdditionalResultSetsReturned => "00D",
+            AttemptToReturnTooManyResultSets => "00E",
+            StatementTooLongForInformationSchema => "00F",
+            ColumnCannotBeMapped => "010",
+            SqlJavaPathTooLongForInformationSchema => "011",
+            InvalidNumberOfConditions => "012",
+            ArrayDataRightTruncation => "02F",
+        }
+    }
+}
+
 pub enum NoData {
     NoAdditionalResultSetsReturned,
 }
