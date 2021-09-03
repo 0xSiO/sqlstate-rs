@@ -6,76 +6,73 @@ pub enum Category {
 }
 
 #[non_exhaustive]
-pub enum Class {
+pub enum SqlState {
     Success,
-    Warning,
-    NoData,
-    DynamicSqlError,
-    ConnectionException,
+    Warning(Warning),
+    NoData(NoData),
+    DynamicSqlError(DynamicSqlError),
+    ConnectionException(ConnectionException),
     TriggeredActionException,
-    FeatureNotSupported,
+    FeatureNotSupported(FeatureNotSupported),
     InvalidTargetTypeSpecification,
     InvalidSchemaNameListSpecification,
-    LocatorException,
+    LocatorException(LocatorException),
     ResignalWhenHandlerNotActive,
     InvalidGrantor,
     InvalidSqlInvokedProcedureReference,
-    SqlXmlMappingError,
+    SqlXmlMappingError(SqlXmlMappingError),
     InvalidRoleSpecification,
     InvalidTransformGroupNameSpecification,
     TargetTableDisagreesWithCursorSpecification,
     AttemptToAssignToNonUpdatableColumn,
     AttemptToAssignToOrderingColumn,
-    ProhibitedStatementDuringTriggerExecution,
+    ProhibitedStatementDuringTriggerExecution(ProhibitedStatementDuringTriggerExecution),
     InvalidForeignServerSpecification,
-    PassthroughSpecificCondition,
-    DiagnosticsException,
+    PassthroughSpecificCondition(PassthroughSpecificCondition),
+    DiagnosticsException(DiagnosticsException),
     XQueryError,
     CaseNotFoundForCaseStatement,
     CardinalityViolation,
-    DataException,
-    IntegrityConstraintViolation,
+    DataException(DataException),
+    IntegrityConstraintViolation(IntegrityConstraintViolation),
     InvalidCursorState,
-    InvalidTransactionState,
+    InvalidTransactionState(InvalidTransactionState),
     InvalidSqlStatementName,
-    TriggeredDataChangeViolation,
+    TriggeredDataChangeViolation(TriggeredDataChangeViolation),
     InvalidAuthorizationSpecification,
     DependentPrivilegeDescriptorsExist,
     InvalidCharsetName,
     InvalidTransactionTermination,
     InvalidConnectionName,
-    SqlRoutineException,
+    SqlRoutineException(SqlRoutineException),
     InvalidCollationName,
     InvalidSqlStatementIdentifier,
     InvalidSqlDescriptorName,
     InvalidCursorName,
     InvalidConditionNumber,
-    CursorSensitivityException,
-    ExternalRoutineException,
-    ExternalRoutineInvocationException,
-    SavepointException,
+    CursorSensitivityException(CursorSensitivityException),
+    ExternalRoutineException(ExternalRoutineException),
+    ExternalRoutineInvocationException(ExternalRoutineInvocationException),
+    SavepointException(SavepointException),
     AmbiguousCursorName,
     InvalidCatalogName,
     InvalidSchemaName,
-    TransactionRollback,
+    TransactionRollback(TransactionRollback),
     SyntaxErrorOrAccessRuleViolation,
     WithCheckOptionViolation,
     UnhandledUserDefinedException,
-    OlbSpecificError,
-    JavaDdl,
-    DatalinkException,
-    FdwSpecificCondition,
-    CliSpecificCondition,
-    RemoteDatabaseAccess,
+    OlbSpecificError(OlbSpecificError),
+    DatalinkException(DatalinkException),
+    FdwSpecificCondition(FdwSpecificCondition),
+    CliSpecificCondition(CliSpecificCondition),
+    RemoteDatabaseAccess(RemoteDatabaseAccess),
 }
 
-#[non_exhaustive]
-pub enum Subclass {
-    // Warning
+pub enum Warning {
     CursorOperationConflict,
     DisconnectError,
     NullValueEliminatedInSetFunction,
-    StringDataRightTruncation, // Also DataException
+    StringDataRightTruncation,
     InsufficientItemDescriptorAreas,
     PrivilegeNotRevoked,
     PrivilegeNotGranted,
@@ -89,10 +86,14 @@ pub enum Subclass {
     ColumnCannotBeMapped,
     SqlJavaPathTooLongForInformationSchema,
     InvalidNumberOfConditions,
-    ArrayDataRightTruncation, // Also DataException
-    // NoData
+    ArrayDataRightTruncation,
+}
+
+pub enum NoData {
     NoAdditionalResultSetsReturned,
-    // DynamicSqlError
+}
+
+pub enum DynamicSqlError {
     UsingClauseDoesNotMatchDynamicParameterSpecifications,
     UsingClauseDoesNotMatchTargetSpecifications,
     CursorSpecificationCannotBeExecuted,
@@ -107,32 +108,49 @@ pub enum Subclass {
     InvalidDataTarget,
     InvalidLevelValue,
     InvalidDatetimeIntervalCode,
-    // ConnectionException
+}
+
+pub enum ConnectionException {
     SqlClientUnableToEstablishSqlConnection,
     ConnectionNameInUse,
     ConnectionDoesNotExist,
     SqlServerRejectedEstablishmentOfSqlConnection,
     ConnectionFailure,
     TransactionResolutionUnknown,
-    // FeatureNotSupported
+}
+
+pub enum FeatureNotSupported {
     MultipleServerTransactions,
-    // LocatorException
-    InvalidLocatorSpecification,
-    // SqlXmlMappingError
+}
+
+pub enum LocatorException {
+    InvalidSpecification,
+}
+
+pub enum SqlXmlMappingError {
     UnmappableXmlName,
     InvalidXmlCharacter,
-    // ProhibitedStatementDuringTriggerExecution
-    ModifyTableModifiedByDataChangeDeltaTable, // Also TriggeredDataChangeViolation
-    // PassthroughSpecificCondition
+}
+
+pub enum ProhibitedStatementDuringTriggerExecution {
+    ModifyTableModifiedByDataChangeDeltaTable,
+}
+
+pub enum PassthroughSpecificCondition {
     InvalidCursorOption,
     InvalidCursorAllocation,
-    // DiagnosticsException
+}
+
+pub enum DiagnosticsException {
     MaximumNumberOfStackedDiagnosticsAreasExceeded,
     StackedDiagnosticsAccessedWithoutActiveHandler,
-    // DataException
+}
+
+pub enum DataException {
+    StringDataRightTruncation,
     NullValueNoIndicatorParameter,
     NumericValueOutOfRange,
-    NullValueNotAllowed, // Also ExternalRoutineInvocationException
+    NullValueNotAllowed,
     ErrorInAssignment,
     InvalidIntervalFormat,
     InvalidDatetimeFormat,
@@ -201,11 +219,16 @@ pub enum Subclass {
     NullValueInFieldReference,
     NullValueSubstitutedForMutatorSubjectParameter,
     ArrayElementError,
+    ArrayDataRightTruncation,
     InvalidRepeatArgumentInASampleClause,
     InvalidSampleSize,
-    // IntegrityConstraintViolation
+}
+
+pub enum IntegrityConstraintViolation {
     RestrictViolation,
-    // InvalidTransactionState
+}
+
+pub enum InvalidTransactionState {
     ActiveSqlTransaction,
     BranchTransactionAlreadyActive,
     InappropriateAccessModeForBranchTransaction,
@@ -214,25 +237,48 @@ pub enum Subclass {
     ReadOnlySqlTransaction,
     SchemaAndDataStatementMixingNotSupported,
     HeldCursorRequiresSameIsolationLevel,
-    // SqlRoutineException
-    ModifyingSqlDataNotPermitted,    // Also ExternalRoutineException
-    ProhibitedSqlStatementAttempted, // Also ExternalRoutineException
-    ReadingSqlDataNotPermitted,      // Also ExternalRoutineException
+}
+
+pub enum TriggeredDataChangeViolation {
+    ModifyTableModifiedByDataChangeDeltaTable,
+}
+
+pub enum SqlRoutineException {
+    ModifyingSqlDataNotPermitted,
+    ProhibitedSqlStatementAttempted,
+    ReadingSqlDataNotPermitted,
     FunctionExecutedNoReturnStatement,
-    // CursorSensitivityException
+}
+
+pub enum CursorSensitivityException {
     RequestRejected,
     RequestFailed,
-    // ExternalRoutineException
+}
+
+pub enum ExternalRoutineException {
     ContainingSqlNotPermitted,
-    // SavepointException
+    ModifyingSqlDataNotPermitted,
+    ProhibitedSqlStatementAttempted,
+    ReadingSqlDataNotPermitted,
+}
+
+pub enum ExternalRoutineInvocationException {
+    NullValueNotAllowed,
+}
+
+pub enum SavepointException {
     InvalidSavepointSpecification,
     TooManySavepoints,
-    // TransactionRollback
+}
+
+pub enum TransactionRollback {
     SerializationFailure,
     IntegrityConstraintViolation,
     StatementCompletionUnknown,
     TriggeredActionException,
-    // JavaDdl
+}
+
+pub enum OlbSpecificError {
     InvalidUrl,
     InvalidJarName,
     InvalidClassDeletion,
@@ -244,13 +290,14 @@ pub enum Subclass {
     SelfReferencingPath,
     InvalidJarNameInPath,
     UnresolvedClassName,
-    // OlbSpecificError
     UnsupportedFeature,
     InvalidClassDeclaration,
-    InvalidOlbColumnName,
+    InvalidColumnName,
     InvalidNumberOfColumns,
     InvalidProfileState,
-    // DatalinkException
+}
+
+pub enum DatalinkException {
     ExternalFileNotLinked,
     ExternalFileAlreadyLinked,
     ReferencedFileDoesNotExist,
@@ -258,17 +305,19 @@ pub enum Subclass {
     InvalidDatalinkConstruction,
     InvalidWritePermissionForUpdate,
     ReferencedFileNotValid,
-    // FdwSpecificCondition
+}
+
+pub enum FdwSpecificCondition {
     MemoryAllocationError,
-    DynamicParameterValueNeeded, // Also CliSpecificCondition
-    InvalidDataType,             // Also CliSpecificCondition
+    DynamicParameterValueNeeded,
+    InvalidDataType,
     ColumnNameNotFound,
     InvalidDataTypeDescriptors,
-    InvalidFdwColumnName,
+    InvalidColumnName,
     InvalidColumnNumber,
-    InvalidUseOfNullPointer, // Also CliSpecificCondition
+    InvalidUseOfNullPointer,
     InvalidStringFormat,
-    InvalidHandle, // Also CliSpecificCondition
+    InvalidHandle,
     InvalidOptionIndex,
     InvalidOptionName,
     OptionNameNotFound,
@@ -279,24 +328,37 @@ pub enum Subclass {
     NoSchemas,
     SchemaNotFound,
     TableNotFound,
-    FunctionSequenceError,             // Also CliSpecificCondition
-    LimitOnNumberOfHandlesExceeded,    // Also CliSpecificCondition
-    InconsistentDescriptorInformation, // Also CliSpecificCondition
-    InvalidAttributeValue,             // Also CliSpecificCondition
-    InvalidStringLengthOrBufferLength, // Also CliSpecificCondition
-    InvalidDescriptorFieldIdentifier,  // Also CliSpecificCondition
-    // CliSpecificCondition
+    FunctionSequenceError,
+    LimitOnNumberOfHandlesExceeded,
+    InconsistentDescriptorInformation,
+    InvalidAttributeValue,
+    InvalidStringLengthOrBufferLength,
+    InvalidDescriptorFieldIdentifier,
+}
+
+pub enum CliSpecificCondition {
+    DynamicParameterValueNeeded,
+    InvalidHandle,
+    MemoryAllocationError,
     InvalidDataTypeInApplicationDescriptor,
+    InvalidDataType,
     AssociatedStatementIsNotPrepared,
     OperationCanceled,
+    InvalidUseOfNullPointer,
+    FunctionSequenceError,
     AttributeCannotBeSetNow,
     InvalidTransactionOperationCode,
     MemoryManagementError,
+    LimitOnNumberOfHandlesExceeded,
     InvalidUseOfAutomaticallyAllocatedDescriptorHandle,
     ServerDeclinedCancellationRequest,
     NonStringDataCannotBeSentInPieces,
     AttemptToConcatenateANullValue,
+    InconsistentDescriptorInformation,
+    InvalidAttributeValue,
     NonStringDataCannotBeUsedWithStringRoutine,
+    InvalidStringLengthOrBufferLength,
+    InvalidDescriptorFieldIdentifier,
     InvalidAttributeIdentifier,
     InvalidDatalinkValue,
     InvalidFunctionIdSpecified,
@@ -311,12 +373,8 @@ pub enum Subclass {
     RowValueOutOfRange,
     InvalidCursorPosition,
     OptionalFeatureNotImplemented,
-    // RemoteDatabaseAccess
-    Iso9579,
 }
 
-pub struct SqlState {
-    category: Category,
-    class: Class,
-    subclass: Option<Subclass>,
+pub enum RemoteDatabaseAccess {
+    Unknown,
 }
