@@ -66,6 +66,7 @@ pub enum SqlState {
     FdwSpecificCondition(FdwSpecificCondition),
     CliSpecificCondition(CliSpecificCondition),
     RemoteDatabaseAccess(RemoteDatabaseAccess),
+    Other(String),
 }
 
 pub enum Warning {
