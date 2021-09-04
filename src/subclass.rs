@@ -1,6 +1,4 @@
-use std::convert::TryFrom;
-
-use crate::error::ParseError;
+use std::{convert::Infallible, str::FromStr};
 
 pub enum Warning {
     CursorOperationConflict,
@@ -21,12 +19,13 @@ pub enum Warning {
     SqlJavaPathTooLongForInformationSchema,
     InvalidNumberOfConditions,
     ArrayDataRightTruncation,
+    Other(String),
 }
 
-impl TryFrom<&str> for Warning {
-    type Error = ParseError;
+impl FromStr for Warning {
+    type Err = Infallible;
 
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
             "001" => Ok(Self::CursorOperationConflict),
             "002" => Ok(Self::DisconnectError),
@@ -46,13 +45,13 @@ impl TryFrom<&str> for Warning {
             "011" => Ok(Self::SqlJavaPathTooLongForInformationSchema),
             "012" => Ok(Self::InvalidNumberOfConditions),
             "02F" => Ok(Self::ArrayDataRightTruncation),
-            other => Err(ParseError::UnknownSubclass(other.to_string())),
+            other => Ok(Self::Other(other.to_string())),
         }
     }
 }
 
 impl Warning {
-    pub fn as_str(&self) -> &'static str {
+    pub fn as_str(&self) -> &str {
         use Warning::*;
 
         match self {
@@ -74,6 +73,7 @@ impl Warning {
             SqlJavaPathTooLongForInformationSchema => "011",
             InvalidNumberOfConditions => "012",
             ArrayDataRightTruncation => "02F",
+            Other(subclass) => subclass.as_str(),
         }
     }
 }

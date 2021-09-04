@@ -1,7 +1,8 @@
 pub mod error;
+pub mod postgres;
 pub mod subclass;
 
-use std::convert::TryFrom;
+use std::{convert::TryFrom, str::FromStr};
 
 pub use self::{error::ParseError, subclass::*};
 
@@ -10,6 +11,11 @@ pub enum Category {
     Warning,
     NoData,
     Exception,
+}
+
+pub enum PostgresSqlState {
+    Standard(SqlState),
+    Custom(postgres::SqlState),
 }
 
 #[non_exhaustive]
@@ -76,10 +82,10 @@ pub enum SqlState {
     Other(String),
 }
 
-impl TryFrom<&str> for SqlState {
-    type Error = ParseError;
+impl FromStr for SqlState {
+    type Err = ParseError;
 
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
         // SQL standard requires length to be 5 bytes
         if value.len() != 5 {
             return Err(ParseError::InvalidLength(value.len()));
@@ -89,7 +95,7 @@ impl TryFrom<&str> for SqlState {
 
         match class {
             "00" => Ok(Self::Success),
-            "01" => Ok(Self::Warning(Warning::try_from(subclass)?)),
+            "01" => Ok(Self::Warning(subclass.parse().unwrap())),
             "02" => Ok(Self::NoData(NoData::try_from(subclass)?)),
             "07" => Ok(Self::DynamicSqlError(DynamicSqlError::try_from(subclass)?)),
             "08" => Ok(Self::ConnectionException(ConnectionException::try_from(
