@@ -96,7 +96,7 @@ impl FromStr for SqlState {
         match class {
             "00" => Ok(Self::Success),
             "01" => Ok(Self::Warning(subclass.parse().unwrap())),
-            "02" => Ok(Self::NoData(NoData::try_from(subclass)?)),
+            "02" => Ok(Self::NoData(subclass.parse().unwrap())),
             "07" => Ok(Self::DynamicSqlError(DynamicSqlError::try_from(subclass)?)),
             "08" => Ok(Self::ConnectionException(ConnectionException::try_from(
                 subclass,

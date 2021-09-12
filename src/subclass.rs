@@ -80,6 +80,29 @@ impl Warning {
 
 pub enum NoData {
     NoAdditionalResultSetsReturned,
+    Other(String),
+}
+
+impl FromStr for NoData {
+    type Err = Infallible;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        match value {
+            "001" => Ok(Self::NoAdditionalResultSetsReturned),
+            other => Ok(Self::Other(other.to_string())),
+        }
+    }
+}
+
+impl NoData {
+    pub fn as_str(&self) -> &str {
+        use NoData::*;
+
+        match self {
+            NoAdditionalResultSetsReturned => "001",
+            Other(subclass) => subclass.as_str(),
+        }
+    }
 }
 
 pub enum DynamicSqlError {
