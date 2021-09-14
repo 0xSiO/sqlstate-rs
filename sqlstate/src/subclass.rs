@@ -120,6 +120,44 @@ pub enum DynamicSqlError {
     InvalidDataTarget,
     InvalidLevelValue,
     InvalidDatetimeIntervalCode,
+    Other(String),
+}
+
+impl FromStr for DynamicSqlError {
+    type Err = Infallible;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        use DynamicSqlError::*;
+
+        match value {
+            "001" => Ok(UsingClauseDoesNotMatchDynamicParameterSpecifications),
+            "002" => Ok(UsingClauseDoesNotMatchTargetSpecifications),
+            "003" => Ok(CursorSpecificationCannotBeExecuted),
+            "004" => Ok(UsingClauseRequiredForDynamicParameters),
+            "005" => Ok(PreparedStatementNotACursorSpecification),
+            "006" => Ok(RestrictedDataTypeAttributeViolation),
+            "007" => Ok(UsingClauseRequiredForResultFields),
+            "008" => Ok(InvalidDescriptorCount),
+            "009" => Ok(InvalidDescriptorIndex),
+            "00B" => Ok(DataTypeTransformFunctionViolation),
+            "00C" => Ok(UndefinedDataValue),
+            "00D" => Ok(InvalidDataTarget),
+            "00E" => Ok(InvalidLevelValue),
+            "00F" => Ok(InvalidDatetimeIntervalCode),
+            other => Ok(Other(other.to_string())),
+        }
+    }
+}
+
+impl DynamicSqlError {
+    pub fn as_str(&self) -> &str {
+        use DynamicSqlError::*;
+
+        match self {
+            NoAdditionalResultSetsReturned => "001",
+            Other(subclass) => subclass.as_str(),
+        }
+    }
 }
 
 pub enum ConnectionException {

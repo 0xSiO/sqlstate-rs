@@ -1,11 +1,5 @@
-[package]
-name = "sqlstate"
-version = "0.0.0"
-authors = ["Luc Street <lucis-fluxum@users.noreply.github.com>"]
-description = "..."
-repository = "https://github.com/lucis-fluxum/sqlstate-rs"
-license = "MIT"
-edition = "2018"
+[workspace]
 
-[dependencies]
-thiserror = "1.0.0"
+members = [
+    "sqlstate",
+]
