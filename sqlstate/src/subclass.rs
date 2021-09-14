@@ -1,167 +1,81 @@
-use std::{convert::Infallible, str::FromStr};
-
 use sqlstate_macros::subclass;
 
+#[subclass]
 pub enum Warning {
+    #[state("001")]
     CursorOperationConflict,
+    #[state("002")]
     DisconnectError,
+    #[state("003")]
     NullValueEliminatedInSetFunction,
+    #[state("004")]
     StringDataRightTruncation,
+    #[state("005")]
     InsufficientItemDescriptorAreas,
+    #[state("006")]
     PrivilegeNotRevoked,
+    #[state("007")]
     PrivilegeNotGranted,
+    #[state("009")]
     SearchConditionTooLongForInformationSchema,
+    #[state("00A")]
     QueryExpressionTooLongForInformationSchema,
+    #[state("00B")]
     DefaultValueTooLongForInformationSchema,
+    #[state("00C")]
     ResultSetsReturned,
+    #[state("00D")]
     AdditionalResultSetsReturned,
+    #[state("00E")]
     AttemptToReturnTooManyResultSets,
+    #[state("00F")]
     StatementTooLongForInformationSchema,
+    #[state("010")]
     ColumnCannotBeMapped,
+    #[state("011")]
     SqlJavaPathTooLongForInformationSchema,
+    #[state("012")]
     InvalidNumberOfConditions,
+    #[state("02F")]
     ArrayDataRightTruncation,
-    Other(String),
-}
-
-impl FromStr for Warning {
-    type Err = Infallible;
-
-    fn from_str(value: &str) -> Result<Self, Self::Err> {
-        match value {
-            "001" => Ok(Self::CursorOperationConflict),
-            "002" => Ok(Self::DisconnectError),
-            "003" => Ok(Self::NullValueEliminatedInSetFunction),
-            "004" => Ok(Self::StringDataRightTruncation),
-            "005" => Ok(Self::InsufficientItemDescriptorAreas),
-            "006" => Ok(Self::PrivilegeNotRevoked),
-            "007" => Ok(Self::PrivilegeNotGranted),
-            "009" => Ok(Self::SearchConditionTooLongForInformationSchema),
-            "00A" => Ok(Self::QueryExpressionTooLongForInformationSchema),
-            "00B" => Ok(Self::DefaultValueTooLongForInformationSchema),
-            "00C" => Ok(Self::ResultSetsReturned),
-            "00D" => Ok(Self::AdditionalResultSetsReturned),
-            "00E" => Ok(Self::AttemptToReturnTooManyResultSets),
-            "00F" => Ok(Self::StatementTooLongForInformationSchema),
-            "010" => Ok(Self::ColumnCannotBeMapped),
-            "011" => Ok(Self::SqlJavaPathTooLongForInformationSchema),
-            "012" => Ok(Self::InvalidNumberOfConditions),
-            "02F" => Ok(Self::ArrayDataRightTruncation),
-            other => Ok(Self::Other(other.to_string())),
-        }
-    }
-}
-
-impl Warning {
-    pub fn as_str(&self) -> &str {
-        use Warning::*;
-
-        match self {
-            CursorOperationConflict => "001",
-            DisconnectError => "002",
-            NullValueEliminatedInSetFunction => "003",
-            StringDataRightTruncation => "004",
-            InsufficientItemDescriptorAreas => "005",
-            PrivilegeNotRevoked => "006",
-            PrivilegeNotGranted => "007",
-            SearchConditionTooLongForInformationSchema => "009",
-            QueryExpressionTooLongForInformationSchema => "00A",
-            DefaultValueTooLongForInformationSchema => "00B",
-            ResultSetsReturned => "00C",
-            AdditionalResultSetsReturned => "00D",
-            AttemptToReturnTooManyResultSets => "00E",
-            StatementTooLongForInformationSchema => "00F",
-            ColumnCannotBeMapped => "010",
-            SqlJavaPathTooLongForInformationSchema => "011",
-            InvalidNumberOfConditions => "012",
-            ArrayDataRightTruncation => "02F",
-            Other(subclass) => subclass.as_str(),
-        }
-    }
 }
 
 #[subclass]
 pub enum NoData {
     #[state("001")]
     NoAdditionalResultSetsReturned,
-    Other(String),
 }
 
-impl FromStr for NoData {
-    type Err = Infallible;
-
-    fn from_str(value: &str) -> Result<Self, Self::Err> {
-        match value {
-            "001" => Ok(Self::NoAdditionalResultSetsReturned),
-            other => Ok(Self::Other(other.to_string())),
-        }
-    }
-}
-
-impl NoData {
-    pub fn as_str(&self) -> &str {
-        use NoData::*;
-
-        match self {
-            NoAdditionalResultSetsReturned => "001",
-            Other(subclass) => subclass.as_str(),
-        }
-    }
-}
-
+#[subclass]
 pub enum DynamicSqlError {
+    #[state("001")]
     UsingClauseDoesNotMatchDynamicParameterSpecifications,
+    #[state("002")]
     UsingClauseDoesNotMatchTargetSpecifications,
+    #[state("003")]
     CursorSpecificationCannotBeExecuted,
+    #[state("004")]
     UsingClauseRequiredForDynamicParameters,
+    #[state("005")]
     PreparedStatementNotACursorSpecification,
+    #[state("006")]
     RestrictedDataTypeAttributeViolation,
+    #[state("007")]
     UsingClauseRequiredForResultFields,
+    #[state("008")]
     InvalidDescriptorCount,
+    #[state("009")]
     InvalidDescriptorIndex,
+    #[state("00B")]
     DataTypeTransformFunctionViolation,
+    #[state("00C")]
     UndefinedDataValue,
+    #[state("00D")]
     InvalidDataTarget,
+    #[state("00E")]
     InvalidLevelValue,
+    #[state("00F")]
     InvalidDatetimeIntervalCode,
-    Other(String),
-}
-
-impl FromStr for DynamicSqlError {
-    type Err = Infallible;
-
-    fn from_str(value: &str) -> Result<Self, Self::Err> {
-        use DynamicSqlError::*;
-
-        match value {
-            "001" => Ok(UsingClauseDoesNotMatchDynamicParameterSpecifications),
-            "002" => Ok(UsingClauseDoesNotMatchTargetSpecifications),
-            "003" => Ok(CursorSpecificationCannotBeExecuted),
-            "004" => Ok(UsingClauseRequiredForDynamicParameters),
-            "005" => Ok(PreparedStatementNotACursorSpecification),
-            "006" => Ok(RestrictedDataTypeAttributeViolation),
-            "007" => Ok(UsingClauseRequiredForResultFields),
-            "008" => Ok(InvalidDescriptorCount),
-            "009" => Ok(InvalidDescriptorIndex),
-            "00B" => Ok(DataTypeTransformFunctionViolation),
-            "00C" => Ok(UndefinedDataValue),
-            "00D" => Ok(InvalidDataTarget),
-            "00E" => Ok(InvalidLevelValue),
-            "00F" => Ok(InvalidDatetimeIntervalCode),
-            other => Ok(Other(other.to_string())),
-        }
-    }
-}
-
-impl DynamicSqlError {
-    pub fn as_str(&self) -> &str {
-        use DynamicSqlError::*;
-
-        match self {
-            Other(subclass) => subclass.as_str(),
-            _ => todo!(),
-        }
-    }
 }
 
 pub enum ConnectionException {
