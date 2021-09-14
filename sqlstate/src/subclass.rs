@@ -1,5 +1,7 @@
 use std::{convert::Infallible, str::FromStr};
 
+use sqlstate_macros::subclass;
+
 pub enum Warning {
     CursorOperationConflict,
     DisconnectError,
@@ -78,7 +80,9 @@ impl Warning {
     }
 }
 
+#[subclass]
 pub enum NoData {
+    #[state("001")]
     NoAdditionalResultSetsReturned,
     Other(String),
 }
