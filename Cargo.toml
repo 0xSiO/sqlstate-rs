@@ -2,4 +2,5 @@
 
 members = [
     "sqlstate",
+    "sqlstate-macros",
 ]

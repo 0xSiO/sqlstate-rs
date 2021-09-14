@@ -154,8 +154,8 @@ impl DynamicSqlError {
         use DynamicSqlError::*;
 
         match self {
-            NoAdditionalResultSetsReturned => "001",
             Other(subclass) => subclass.as_str(),
+            _ => todo!(),
         }
     }
 }
