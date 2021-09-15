@@ -7,6 +7,7 @@ pub enum SqlState {
 
 pub enum PostgresSqlState {
     Warning(Warning),
+    SqlStatementNotYetComplete,
 }
 
 #[subclass]
