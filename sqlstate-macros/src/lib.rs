@@ -2,14 +2,14 @@ use std::collections::HashMap;
 
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{Ident, LitStr};
+use syn::{Fields, Ident, LitStr};
 
 #[proc_macro_attribute]
 pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
-    let mut subclass = syn::parse_macro_input!(item as syn::ItemEnum);
+    let mut class_enum = syn::parse_macro_input!(item as syn::ItemEnum);
     let mut subclasses: HashMap<Ident, LitStr> = HashMap::new();
 
-    for variant in subclass.variants.iter_mut() {
+    for variant in class_enum.variants.iter_mut() {
         let attrs = &mut variant.attrs;
         // TODO: Replace with attrs.drain_filter(...)
         let mut i = 0;
@@ -24,10 +24,10 @@ pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
         }
     }
 
-    let attributes = &subclass.attrs;
-    let visibility = &subclass.vis;
-    let subclass_ident = &subclass.ident;
-    let variants = &subclass.variants;
+    let attributes = &class_enum.attrs;
+    let visibility = &class_enum.vis;
+    let class_ident = &class_enum.ident;
+    let variants = &class_enum.variants;
     let from_str_arms = subclasses
         .iter()
         .map(|(variant, code)| quote! { #code => Ok(Self::#variant), });
@@ -37,12 +37,12 @@ pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
 
     quote!(
         #(#attributes)*
-        #visibility enum #subclass_ident {
+        #visibility enum #class_ident {
             #variants
             Other(::std::string::String),
         }
 
-        impl ::std::str::FromStr for #subclass_ident {
+        impl ::std::str::FromStr for #class_ident {
             type Err = ::std::convert::Infallible;
 
             fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
@@ -53,11 +53,78 @@ pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
             }
         }
 
-        impl #subclass_ident {
+        impl #class_ident {
             pub fn as_str(&self) -> &str {
                 match self {
                     #(#as_str_arms)*
                     Self::Other(subclass) => subclass.as_str(),
+                }
+            }
+        }
+    )
+    .into()
+}
+
+#[proc_macro_attribute]
+pub fn state(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
+    let mut state_enum = syn::parse_macro_input!(item as syn::ItemEnum);
+    // Mapping of class code -> (variant ident, whether it's a tuple variant)
+    let mut classes: HashMap<LitStr, (Ident, bool)> = HashMap::new();
+
+    for variant in state_enum.variants.iter_mut() {
+        let attrs = &mut variant.attrs;
+        // TODO: Replace with attrs.drain_filter(...)
+        let mut i = 0;
+        while i < attrs.len() {
+            if attrs[i].path.is_ident("class") {
+                let attr = attrs.remove(i);
+                let code: LitStr = attr.parse_args().unwrap();
+                classes.insert(
+                    code,
+                    (
+                        variant.ident.clone(),
+                        matches!(variant.fields, Fields::Unnamed(_)),
+                    ),
+                );
+            } else {
+                i += 1;
+            }
+        }
+    }
+
+    let attributes = &state_enum.attrs;
+    let visibility = &state_enum.vis;
+    let state_ident = &state_enum.ident;
+    let variants = &state_enum.variants;
+    let from_str_arms = classes.iter().map(|(code, (variant, is_tuple))| {
+        if *is_tuple {
+            quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())) }
+        } else {
+            quote! { #code => Ok(Self::#variant), }
+        }
+    });
+
+    quote!(
+        #(#attributes)*
+        #visibility enum #state_ident {
+            #variants
+            Other(::std::string::String),
+        }
+
+        impl ::std::str::FromStr for #state_ident {
+            type Err = crate::error::ParseError;
+
+            fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
+                // SQL standard requires length to be 5 bytes
+                if s.len() != 5 {
+                    return Err(crate::error::ParseError::InvalidLength(s.len()));
+                }
+
+                let (class, subclass) = s.split_at(2);
+
+                match class {
+                    #(#from_str_arms)*
+                    _ => Ok(Self::Other(value.to_string())),
                 }
             }
         }
