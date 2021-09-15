@@ -1,7 +1,7 @@
 use sqlstate_macros::class;
 
 pub enum SqlState {
-    Standard(crate::SqlState),
+    Standard(crate::standard::SqlState),
     Custom(PostgresSqlState),
 }
 
