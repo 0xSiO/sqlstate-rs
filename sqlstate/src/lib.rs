@@ -2,7 +2,7 @@ pub mod error;
 pub mod postgres;
 pub mod subclass;
 
-use std::{convert::TryFrom, str::FromStr};
+use std::str::FromStr;
 
 pub use self::{error::ParseError, subclass::*};
 
