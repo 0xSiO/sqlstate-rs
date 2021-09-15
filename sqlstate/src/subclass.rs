@@ -1,6 +1,7 @@
 use sqlstate_macros::subclass;
 
 #[subclass]
+#[non_exhaustive]
 pub enum Warning {
     #[state("001")]
     CursorOperationConflict,
@@ -41,12 +42,14 @@ pub enum Warning {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum NoData {
     #[state("001")]
     NoAdditionalResultSetsReturned,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum DynamicSqlError {
     #[state("001")]
     UsingClauseDoesNotMatchDynamicParameterSpecifications,
@@ -79,6 +82,7 @@ pub enum DynamicSqlError {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum ConnectionException {
     #[state("001")]
     SqlClientUnableToEstablishSqlConnection,
@@ -95,18 +99,21 @@ pub enum ConnectionException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum FeatureNotSupported {
     #[state("001")]
     MultipleServerTransactions,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum LocatorException {
     #[state("001")]
     InvalidSpecification,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum SqlXmlMappingError {
     #[state("001")]
     UnmappableXmlName,
@@ -115,12 +122,14 @@ pub enum SqlXmlMappingError {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum ProhibitedStatementDuringTriggerExecution {
     #[state("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum PassthroughSpecificCondition {
     #[state("001")]
     InvalidCursorOption,
@@ -129,6 +138,7 @@ pub enum PassthroughSpecificCondition {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum DiagnosticsException {
     #[state("001")]
     MaximumNumberOfStackedDiagnosticsAreasExceeded,
@@ -137,6 +147,7 @@ pub enum DiagnosticsException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum DataException {
     #[state("001")]
     StringDataRightTruncation,
@@ -291,12 +302,14 @@ pub enum DataException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum IntegrityConstraintViolation {
     #[state("001")]
     RestrictViolation,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum InvalidTransactionState {
     #[state("001")]
     ActiveSqlTransaction,
@@ -317,12 +330,14 @@ pub enum InvalidTransactionState {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum TriggeredDataChangeViolation {
     #[state("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum SqlRoutineException {
     #[state("002")]
     ModifyingSqlDataNotPermitted,
@@ -335,6 +350,7 @@ pub enum SqlRoutineException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum CursorSensitivityException {
     #[state("001")]
     RequestRejected,
@@ -343,6 +359,7 @@ pub enum CursorSensitivityException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum ExternalRoutineException {
     #[state("001")]
     ContainingSqlNotPermitted,
@@ -355,12 +372,14 @@ pub enum ExternalRoutineException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
     #[state("001")]
     NullValueNotAllowed,
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum SavepointException {
     #[state("001")]
     InvalidSavepointSpecification,
@@ -369,6 +388,7 @@ pub enum SavepointException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum TransactionRollback {
     #[state("001")]
     SerializationFailure,
@@ -381,6 +401,7 @@ pub enum TransactionRollback {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum OlbSpecificError {
     #[state("001")]
     InvalidUrl,
@@ -417,6 +438,7 @@ pub enum OlbSpecificError {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum DatalinkException {
     #[state("001")]
     ExternalFileNotLinked,
@@ -435,6 +457,7 @@ pub enum DatalinkException {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum FdwSpecificCondition {
     #[state("001")]
     MemoryAllocationError,
@@ -491,6 +514,7 @@ pub enum FdwSpecificCondition {
 }
 
 #[subclass]
+#[non_exhaustive]
 pub enum CliSpecificCondition {
     // No subclass value defined for these two variants.
     // DynamicParameterValueNeeded,
@@ -567,4 +591,5 @@ pub enum CliSpecificCondition {
 
 // TODO: RDA subconditions in ISO9579
 #[subclass]
+#[non_exhaustive]
 pub enum RemoteDatabaseAccess {}

@@ -24,6 +24,7 @@ pub fn subclass(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
         }
     }
 
+    let attributes = &subclass.attrs;
     let visibility = &subclass.vis;
     let subclass_ident = &subclass.ident;
     let variants = &subclass.variants;
@@ -35,6 +36,7 @@ pub fn subclass(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
         .map(|(variant, code)| quote! { Self::#variant => #code, });
 
     quote!(
+        #(#attributes)*
         #visibility enum #subclass_ident {
             #variants
             Other(::std::string::String),
