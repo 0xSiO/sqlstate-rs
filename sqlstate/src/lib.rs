@@ -82,6 +82,17 @@ pub enum SqlState {
     Other(String),
 }
 
+impl SqlState {
+    pub fn category(&self) -> Category {
+        match self {
+            Self::Success => Category::Success,
+            Self::Warning(_) => Category::Warning,
+            Self::NoData(_) => Category::NoData,
+            _ => Category::Exception,
+        }
+    }
+}
+
 impl FromStr for SqlState {
     type Err = ParseError;
 
