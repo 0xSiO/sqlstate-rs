@@ -13,11 +13,6 @@ pub enum Category {
     Exception,
 }
 
-pub enum PostgresSqlState {
-    Standard(SqlState),
-    Custom(postgres::SqlState),
-}
-
 #[non_exhaustive]
 pub enum SqlState {
     Success,
