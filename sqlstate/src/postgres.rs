@@ -1,4 +1,4 @@
-use sqlstate_macros::subclass;
+use sqlstate_macros::class;
 
 pub enum SqlState {
     Standard(crate::SqlState),
@@ -10,10 +10,10 @@ pub enum PostgresSqlState {
     SqlStatementNotYetComplete,
 }
 
-#[subclass]
+#[class]
 pub enum Warning {
-    #[state("008")]
+    #[subclass("008")]
     ImplicitZeroBitPadding,
-    #[state("P01")]
+    #[subclass("P01")]
     DeprecatedFeature,
 }

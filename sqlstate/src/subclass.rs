@@ -1,595 +1,595 @@
-use sqlstate_macros::subclass;
+use sqlstate_macros::class;
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum Warning {
-    #[state("001")]
+    #[subclass("001")]
     CursorOperationConflict,
-    #[state("002")]
+    #[subclass("002")]
     DisconnectError,
-    #[state("003")]
+    #[subclass("003")]
     NullValueEliminatedInSetFunction,
-    #[state("004")]
+    #[subclass("004")]
     StringDataRightTruncation,
-    #[state("005")]
+    #[subclass("005")]
     InsufficientItemDescriptorAreas,
-    #[state("006")]
+    #[subclass("006")]
     PrivilegeNotRevoked,
-    #[state("007")]
+    #[subclass("007")]
     PrivilegeNotGranted,
-    #[state("009")]
+    #[subclass("009")]
     SearchConditionTooLongForInformationSchema,
-    #[state("00A")]
+    #[subclass("00A")]
     QueryExpressionTooLongForInformationSchema,
-    #[state("00B")]
+    #[subclass("00B")]
     DefaultValueTooLongForInformationSchema,
-    #[state("00C")]
+    #[subclass("00C")]
     ResultSetsReturned,
-    #[state("00D")]
+    #[subclass("00D")]
     AdditionalResultSetsReturned,
-    #[state("00E")]
+    #[subclass("00E")]
     AttemptToReturnTooManyResultSets,
-    #[state("00F")]
+    #[subclass("00F")]
     StatementTooLongForInformationSchema,
-    #[state("010")]
+    #[subclass("010")]
     ColumnCannotBeMapped,
-    #[state("011")]
+    #[subclass("011")]
     SqlJavaPathTooLongForInformationSchema,
-    #[state("012")]
+    #[subclass("012")]
     InvalidNumberOfConditions,
-    #[state("02F")]
+    #[subclass("02F")]
     ArrayDataRightTruncation,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum NoData {
-    #[state("001")]
+    #[subclass("001")]
     NoAdditionalResultSetsReturned,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum DynamicSqlError {
-    #[state("001")]
+    #[subclass("001")]
     UsingClauseDoesNotMatchDynamicParameterSpecifications,
-    #[state("002")]
+    #[subclass("002")]
     UsingClauseDoesNotMatchTargetSpecifications,
-    #[state("003")]
+    #[subclass("003")]
     CursorSpecificationCannotBeExecuted,
-    #[state("004")]
+    #[subclass("004")]
     UsingClauseRequiredForDynamicParameters,
-    #[state("005")]
+    #[subclass("005")]
     PreparedStatementNotACursorSpecification,
-    #[state("006")]
+    #[subclass("006")]
     RestrictedDataTypeAttributeViolation,
-    #[state("007")]
+    #[subclass("007")]
     UsingClauseRequiredForResultFields,
-    #[state("008")]
+    #[subclass("008")]
     InvalidDescriptorCount,
-    #[state("009")]
+    #[subclass("009")]
     InvalidDescriptorIndex,
-    #[state("00B")]
+    #[subclass("00B")]
     DataTypeTransformFunctionViolation,
-    #[state("00C")]
+    #[subclass("00C")]
     UndefinedDataValue,
-    #[state("00D")]
+    #[subclass("00D")]
     InvalidDataTarget,
-    #[state("00E")]
+    #[subclass("00E")]
     InvalidLevelValue,
-    #[state("00F")]
+    #[subclass("00F")]
     InvalidDatetimeIntervalCode,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum ConnectionException {
-    #[state("001")]
+    #[subclass("001")]
     SqlClientUnableToEstablishSqlConnection,
-    #[state("002")]
+    #[subclass("002")]
     ConnectionNameInUse,
-    #[state("003")]
+    #[subclass("003")]
     ConnectionDoesNotExist,
-    #[state("004")]
+    #[subclass("004")]
     SqlServerRejectedEstablishmentOfSqlConnection,
-    #[state("006")]
+    #[subclass("006")]
     ConnectionFailure,
-    #[state("007")]
+    #[subclass("007")]
     TransactionResolutionUnknown,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum FeatureNotSupported {
-    #[state("001")]
+    #[subclass("001")]
     MultipleServerTransactions,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum LocatorException {
-    #[state("001")]
+    #[subclass("001")]
     InvalidSpecification,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum SqlXmlMappingError {
-    #[state("001")]
+    #[subclass("001")]
     UnmappableXmlName,
-    #[state("002")]
+    #[subclass("002")]
     InvalidXmlCharacter,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum ProhibitedStatementDuringTriggerExecution {
-    #[state("001")]
+    #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum PassthroughSpecificCondition {
-    #[state("001")]
+    #[subclass("001")]
     InvalidCursorOption,
-    #[state("002")]
+    #[subclass("002")]
     InvalidCursorAllocation,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum DiagnosticsException {
-    #[state("001")]
+    #[subclass("001")]
     MaximumNumberOfStackedDiagnosticsAreasExceeded,
-    #[state("002")]
+    #[subclass("002")]
     StackedDiagnosticsAccessedWithoutActiveHandler,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum DataException {
-    #[state("001")]
+    #[subclass("001")]
     StringDataRightTruncation,
-    #[state("002")]
+    #[subclass("002")]
     NullValueNoIndicatorParameter,
-    #[state("003")]
+    #[subclass("003")]
     NumericValueOutOfRange,
-    #[state("004")]
+    #[subclass("004")]
     NullValueNotAllowed,
-    #[state("005")]
+    #[subclass("005")]
     ErrorInAssignment,
-    #[state("006")]
+    #[subclass("006")]
     InvalidIntervalFormat,
-    #[state("007")]
+    #[subclass("007")]
     InvalidDatetimeFormat,
-    #[state("008")]
+    #[subclass("008")]
     DatetimeFieldOverflow,
-    #[state("009")]
+    #[subclass("009")]
     InvalidTimeZoneDisplacementValue,
-    #[state("00B")]
+    #[subclass("00B")]
     EscapeCharacterConflict,
-    #[state("00C")]
+    #[subclass("00C")]
     InvalidUseOfEscapeCharacter,
-    #[state("00D")]
+    #[subclass("00D")]
     InvalidEscapeOctet,
-    #[state("00E")]
+    #[subclass("00E")]
     NullValueInArrayTarget,
-    #[state("00F")]
+    #[subclass("00F")]
     ZeroLengthCharacterString,
-    #[state("00G")]
+    #[subclass("00G")]
     MostSpecificTypeMismatch,
-    #[state("00H")]
+    #[subclass("00H")]
     SequenceGeneratorLimitExceeded,
-    #[state("00J")]
+    #[subclass("00J")]
     NonidenticalNotationsWithTheSameName,
-    #[state("00K")]
+    #[subclass("00K")]
     NonidenticalUnparsedEntitiesWithTheSameName,
-    #[state("00L")]
+    #[subclass("00L")]
     NotAnXmlDocument,
-    #[state("00M")]
+    #[subclass("00M")]
     InvalidXmlDocument,
-    #[state("00N")]
+    #[subclass("00N")]
     InvalidXmlContent,
-    #[state("00P")]
+    #[subclass("00P")]
     IntervalValueOutOfRange,
-    #[state("00Q")]
+    #[subclass("00Q")]
     MultisetValueOverflow,
-    #[state("00R")]
+    #[subclass("00R")]
     XmlValueOverflow,
-    #[state("00S")]
+    #[subclass("00S")]
     InvalidComment,
-    #[state("00T")]
+    #[subclass("00T")]
     InvalidProcessingInstruction,
-    #[state("00U")]
+    #[subclass("00U")]
     NotAnXQueryDocumentNode,
-    #[state("00V")]
+    #[subclass("00V")]
     InvalidXQueryContextItem,
-    #[state("00W")]
+    #[subclass("00W")]
     XQuerySerializationError,
-    #[state("010")]
+    #[subclass("010")]
     InvalidIndicatorParameterValue,
-    #[state("011")]
+    #[subclass("011")]
     SubstringError,
-    #[state("012")]
+    #[subclass("012")]
     DivisionByZero,
-    #[state("013")]
+    #[subclass("013")]
     InvalidPrecedingOrFollowingSizeInWindowFunction,
-    #[state("014")]
+    #[subclass("014")]
     InvalidArgumentForNtileFunction,
-    #[state("015")]
+    #[subclass("015")]
     IntervalFieldOverflow,
-    #[state("016")]
+    #[subclass("016")]
     InvalidArgumentForNthValueFunction,
-    #[state("017")]
+    #[subclass("017")]
     InvalidDataSpecifiedForDatalink,
-    #[state("018")]
+    #[subclass("018")]
     InvalidCharacterValueForCast,
-    #[state("019")]
+    #[subclass("019")]
     InvalidEscapeCharacter,
-    #[state("01A")]
+    #[subclass("01A")]
     NullArgumentPassedToDatalinkConstructor,
-    #[state("01B")]
+    #[subclass("01B")]
     InvalidRegularExpression,
-    #[state("01C")]
+    #[subclass("01C")]
     NullRowNotPermittedInTable,
-    #[state("01D")]
+    #[subclass("01D")]
     DatalinkValueExceedsMaximumLength,
-    #[state("01E")]
+    #[subclass("01E")]
     InvalidArgumentForNaturalLogarithm,
-    #[state("01F")]
+    #[subclass("01F")]
     InvalidArgumentForPowerFunction,
-    #[state("01G")]
+    #[subclass("01G")]
     InvalidArgumentForWidthBucketFunction,
-    #[state("01H")]
+    #[subclass("01H")]
     InvalidRowVersion,
-    #[state("01J")]
+    #[subclass("01J")]
     XQuerySequenceCannotBeValidated,
-    #[state("01K")]
+    #[subclass("01K")]
     XQueryDocumentNodeCannotBeValidated,
-    #[state("01L")]
+    #[subclass("01L")]
     NoXmlSchemaFound,
-    #[state("01M")]
+    #[subclass("01M")]
     ElementNamespaceNotDeclared,
-    #[state("01N")]
+    #[subclass("01N")]
     GlobalElementNotDeclared,
-    #[state("01P")]
+    #[subclass("01P")]
     NoXmlElementWithSpecifiedQName,
-    #[state("01Q")]
+    #[subclass("01Q")]
     NoXmlElementWithSpecifiedNamespace,
-    #[state("01R")]
+    #[subclass("01R")]
     ValidationFailure,
-    #[state("01S")]
+    #[subclass("01S")]
     InvalidQueryRegularExpression,
-    #[state("01T")]
+    #[subclass("01T")]
     InvalidQueryOptionFlag,
-    #[state("01U")]
+    #[subclass("01U")]
     AttemptToReplaceAZeroLengthString,
-    #[state("01V")]
+    #[subclass("01V")]
     InvalidQueryReplacementString,
-    #[state("01W")]
+    #[subclass("01W")]
     InvalidRowCountInFetchFirstClause,
-    #[state("01X")]
+    #[subclass("01X")]
     InvalidRowCountInResultOffsetClause,
-    #[state("021")]
+    #[subclass("021")]
     CharacterNotInRepertoire,
-    #[state("022")]
+    #[subclass("022")]
     IndicatorOverflow,
-    #[state("023")]
+    #[subclass("023")]
     InvalidParameterValue,
-    #[state("024")]
+    #[subclass("024")]
     UnterminatedCString,
-    #[state("025")]
+    #[subclass("025")]
     InvalidEscapeSequence,
-    #[state("026")]
+    #[subclass("026")]
     StringDataLengthMismatch,
-    #[state("027")]
+    #[subclass("027")]
     TrimError,
-    #[state("029")]
+    #[subclass("029")]
     NoncharacterInUcsString,
-    #[state("02A")]
+    #[subclass("02A")]
     NullValueInFieldReference,
-    #[state("02D")]
+    #[subclass("02D")]
     NullValueSubstitutedForMutatorSubjectParameter,
-    #[state("02E")]
+    #[subclass("02E")]
     ArrayElementError,
-    #[state("02F")]
+    #[subclass("02F")]
     ArrayDataRightTruncation,
-    #[state("02G")]
+    #[subclass("02G")]
     InvalidRepeatArgumentInASampleClause,
-    #[state("02H")]
+    #[subclass("02H")]
     InvalidSampleSize,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum IntegrityConstraintViolation {
-    #[state("001")]
+    #[subclass("001")]
     RestrictViolation,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum InvalidTransactionState {
-    #[state("001")]
+    #[subclass("001")]
     ActiveSqlTransaction,
-    #[state("002")]
+    #[subclass("002")]
     BranchTransactionAlreadyActive,
-    #[state("003")]
+    #[subclass("003")]
     InappropriateAccessModeForBranchTransaction,
-    #[state("004")]
+    #[subclass("004")]
     InappropriateIsolationLevelForBranchTransaction,
-    #[state("005")]
+    #[subclass("005")]
     NoActiveSqlTransactionForBranchTransaction,
-    #[state("006")]
+    #[subclass("006")]
     ReadOnlySqlTransaction,
-    #[state("007")]
+    #[subclass("007")]
     SchemaAndDataStatementMixingNotSupported,
-    #[state("008")]
+    #[subclass("008")]
     HeldCursorRequiresSameIsolationLevel,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum TriggeredDataChangeViolation {
-    #[state("001")]
+    #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum SqlRoutineException {
-    #[state("002")]
+    #[subclass("002")]
     ModifyingSqlDataNotPermitted,
-    #[state("003")]
+    #[subclass("003")]
     ProhibitedSqlStatementAttempted,
-    #[state("004")]
+    #[subclass("004")]
     ReadingSqlDataNotPermitted,
-    #[state("005")]
+    #[subclass("005")]
     FunctionExecutedNoReturnStatement,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum CursorSensitivityException {
-    #[state("001")]
+    #[subclass("001")]
     RequestRejected,
-    #[state("002")]
+    #[subclass("002")]
     RequestFailed,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum ExternalRoutineException {
-    #[state("001")]
+    #[subclass("001")]
     ContainingSqlNotPermitted,
-    #[state("002")]
+    #[subclass("002")]
     ModifyingSqlDataNotPermitted,
-    #[state("003")]
+    #[subclass("003")]
     ProhibitedSqlStatementAttempted,
-    #[state("004")]
+    #[subclass("004")]
     ReadingSqlDataNotPermitted,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
-    #[state("001")]
+    #[subclass("001")]
     NullValueNotAllowed,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum SavepointException {
-    #[state("001")]
+    #[subclass("001")]
     InvalidSavepointSpecification,
-    #[state("002")]
+    #[subclass("002")]
     TooManySavepoints,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum TransactionRollback {
-    #[state("001")]
+    #[subclass("001")]
     SerializationFailure,
-    #[state("002")]
+    #[subclass("002")]
     IntegrityConstraintViolation,
-    #[state("003")]
+    #[subclass("003")]
     StatementCompletionUnknown,
-    #[state("004")]
+    #[subclass("004")]
     TriggeredActionException,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum OlbSpecificError {
-    #[state("001")]
+    #[subclass("001")]
     InvalidUrl,
-    #[state("002")]
+    #[subclass("002")]
     InvalidJarName,
-    #[state("003")]
+    #[subclass("003")]
     InvalidClassDeletion,
-    #[state("005")]
+    #[subclass("005")]
     InvalidReplacement,
-    #[state("00A")]
+    #[subclass("00A")]
     AttemptToReplaceUninstalledJar,
-    #[state("00B")]
+    #[subclass("00B")]
     AttemptToRemoveUninstalledJar,
-    #[state("00C")]
+    #[subclass("00C")]
     InvalidJarRemoval,
-    #[state("00D")]
+    #[subclass("00D")]
     InvalidPath,
-    #[state("00E")]
+    #[subclass("00E")]
     SelfReferencingPath,
-    #[state("102")]
+    #[subclass("102")]
     InvalidJarNameInPath,
-    #[state("103")]
+    #[subclass("103")]
     UnresolvedClassName,
-    #[state("110")]
+    #[subclass("110")]
     UnsupportedFeature,
-    #[state("120")]
+    #[subclass("120")]
     InvalidClassDeclaration,
-    #[state("121")]
+    #[subclass("121")]
     InvalidColumnName,
-    #[state("122")]
+    #[subclass("122")]
     InvalidNumberOfColumns,
-    #[state("130")]
+    #[subclass("130")]
     InvalidProfileState,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum DatalinkException {
-    #[state("001")]
+    #[subclass("001")]
     ExternalFileNotLinked,
-    #[state("002")]
+    #[subclass("002")]
     ExternalFileAlreadyLinked,
-    #[state("003")]
+    #[subclass("003")]
     ReferencedFileDoesNotExist,
-    #[state("004")]
+    #[subclass("004")]
     InvalidWriteToken,
-    #[state("005")]
+    #[subclass("005")]
     InvalidDatalinkConstruction,
-    #[state("006")]
+    #[subclass("006")]
     InvalidWritePermissionForUpdate,
-    #[state("007")]
+    #[subclass("007")]
     ReferencedFileNotValid,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum FdwSpecificCondition {
-    #[state("001")]
+    #[subclass("001")]
     MemoryAllocationError,
-    #[state("002")]
+    #[subclass("002")]
     DynamicParameterValueNeeded,
-    #[state("004")]
+    #[subclass("004")]
     InvalidDataType,
-    #[state("005")]
+    #[subclass("005")]
     ColumnNameNotFound,
-    #[state("006")]
+    #[subclass("006")]
     InvalidDataTypeDescriptors,
-    #[state("007")]
+    #[subclass("007")]
     InvalidColumnName,
-    #[state("008")]
+    #[subclass("008")]
     InvalidColumnNumber,
-    #[state("009")]
+    #[subclass("009")]
     InvalidUseOfNullPointer,
-    #[state("00A")]
+    #[subclass("00A")]
     InvalidStringFormat,
-    #[state("00B")]
+    #[subclass("00B")]
     InvalidHandle,
-    #[state("00C")]
+    #[subclass("00C")]
     InvalidOptionIndex,
-    #[state("00D")]
+    #[subclass("00D")]
     InvalidOptionName,
-    #[state("00J")]
+    #[subclass("00J")]
     OptionNameNotFound,
-    #[state("00K")]
+    #[subclass("00K")]
     ReplyHandle,
-    #[state("00L")]
+    #[subclass("00L")]
     UnableToCreateExecution,
-    #[state("00M")]
+    #[subclass("00M")]
     UnableToCreateReply,
-    #[state("00N")]
+    #[subclass("00N")]
     UnableToEstablishConnection,
-    #[state("00P")]
+    #[subclass("00P")]
     NoSchemas,
-    #[state("00Q")]
+    #[subclass("00Q")]
     SchemaNotFound,
-    #[state("00R")]
+    #[subclass("00R")]
     TableNotFound,
-    #[state("010")]
+    #[subclass("010")]
     FunctionSequenceError,
-    #[state("014")]
+    #[subclass("014")]
     LimitOnNumberOfHandlesExceeded,
-    #[state("021")]
+    #[subclass("021")]
     InconsistentDescriptorInformation,
-    #[state("024")]
+    #[subclass("024")]
     InvalidAttributeValue,
-    #[state("090")]
+    #[subclass("090")]
     InvalidStringLengthOrBufferLength,
-    #[state("091")]
+    #[subclass("091")]
     InvalidDescriptorFieldIdentifier,
 }
 
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum CliSpecificCondition {
     // No subclass value defined for these two variants.
     // DynamicParameterValueNeeded,
     // InvalidHandle,
-    #[state("001")]
+    #[subclass("001")]
     MemoryAllocationError,
-    #[state("003")]
+    #[subclass("003")]
     InvalidDataTypeInApplicationDescriptor,
-    #[state("004")]
+    #[subclass("004")]
     InvalidDataType,
-    #[state("007")]
+    #[subclass("007")]
     AssociatedStatementIsNotPrepared,
-    #[state("008")]
+    #[subclass("008")]
     OperationCanceled,
-    #[state("009")]
+    #[subclass("009")]
     InvalidUseOfNullPointer,
-    #[state("010")]
+    #[subclass("010")]
     FunctionSequenceError,
-    #[state("011")]
+    #[subclass("011")]
     AttributeCannotBeSetNow,
-    #[state("012")]
+    #[subclass("012")]
     InvalidTransactionOperationCode,
-    #[state("013")]
+    #[subclass("013")]
     MemoryManagementError,
-    #[state("014")]
+    #[subclass("014")]
     LimitOnNumberOfHandlesExceeded,
-    #[state("017")]
+    #[subclass("017")]
     InvalidUseOfAutomaticallyAllocatedDescriptorHandle,
-    #[state("018")]
+    #[subclass("018")]
     ServerDeclinedCancellationRequest,
-    #[state("019")]
+    #[subclass("019")]
     NonStringDataCannotBeSentInPieces,
-    #[state("020")]
+    #[subclass("020")]
     AttemptToConcatenateANullValue,
-    #[state("021")]
+    #[subclass("021")]
     InconsistentDescriptorInformation,
-    #[state("024")]
+    #[subclass("024")]
     InvalidAttributeValue,
-    #[state("055")]
+    #[subclass("055")]
     NonStringDataCannotBeUsedWithStringRoutine,
-    #[state("090")]
+    #[subclass("090")]
     InvalidStringLengthOrBufferLength,
-    #[state("091")]
+    #[subclass("091")]
     InvalidDescriptorFieldIdentifier,
-    #[state("092")]
+    #[subclass("092")]
     InvalidAttributeIdentifier,
-    #[state("093")]
+    #[subclass("093")]
     InvalidDatalinkValue,
-    #[state("095")]
+    #[subclass("095")]
     InvalidFunctionIdSpecified,
-    #[state("096")]
+    #[subclass("096")]
     InvalidInformationType,
-    #[state("097")]
+    #[subclass("097")]
     ColumnTypeOutOfRange,
-    #[state("098")]
+    #[subclass("098")]
     ScopeOutOfRange,
-    #[state("099")]
+    #[subclass("099")]
     NullableTypeOutOfRange,
-    #[state("103")]
+    #[subclass("103")]
     InvalidRetrievalCode,
-    #[state("104")]
+    #[subclass("104")]
     InvalidLengthPrecisionValue,
-    #[state("105")]
+    #[subclass("105")]
     InvalidParamterMode,
-    #[state("106")]
+    #[subclass("106")]
     InvalidFetchOrientation,
-    #[state("107")]
+    #[subclass("107")]
     RowValueOutOfRange,
-    #[state("108")]
+    #[subclass("108")]
     InvalidCursorPosition,
-    #[state("C00")]
+    #[subclass("C00")]
     OptionalFeatureNotImplemented,
 }
 
 // TODO: RDA subconditions in ISO9579
-#[subclass]
+#[class]
 #[non_exhaustive]
 pub enum RemoteDatabaseAccess {}
