@@ -1,6 +1,4 @@
-use std::str::FromStr;
-
-use crate::error::ParseError;
+use sqlstate_macros::state;
 
 pub mod class;
 
@@ -13,68 +11,127 @@ pub enum Category {
     Exception,
 }
 
+#[state]
 #[non_exhaustive]
 pub enum SqlState {
+    #[class("00")]
     Success,
+    #[class("01")]
     Warning(Warning),
+    #[class("02")]
     NoData(NoData),
+    #[class("07")]
     DynamicSqlError(DynamicSqlError),
+    #[class("08")]
     ConnectionException(ConnectionException),
+    #[class("09")]
     TriggeredActionException,
+    #[class("0A")]
     FeatureNotSupported(FeatureNotSupported),
+    #[class("0D")]
     InvalidTargetTypeSpecification,
+    #[class("0E")]
     InvalidSchemaNameListSpecification,
+    #[class("0F")]
     LocatorException(LocatorException),
+    #[class("0K")]
     ResignalWhenHandlerNotActive,
+    #[class("0L")]
     InvalidGrantor,
+    #[class("0M")]
     InvalidSqlInvokedProcedureReference,
+    #[class("0N")]
     SqlXmlMappingError(SqlXmlMappingError),
+    #[class("0P")]
     InvalidRoleSpecification,
+    #[class("0S")]
     InvalidTransformGroupNameSpecification,
+    #[class("0T")]
     TargetTableDisagreesWithCursorSpecification,
+    #[class("0U")]
     AttemptToAssignToNonUpdatableColumn,
+    #[class("0V")]
     AttemptToAssignToOrderingColumn,
+    #[class("0W")]
     ProhibitedStatementDuringTriggerExecution(ProhibitedStatementDuringTriggerExecution),
+    #[class("0X")]
     InvalidForeignServerSpecification,
+    #[class("0Y")]
     PassthroughSpecificCondition(PassthroughSpecificCondition),
+    #[class("0Z")]
     DiagnosticsException(DiagnosticsException),
+    #[class("10")]
     XQueryError,
+    #[class("20")]
     CaseNotFoundForCaseStatement,
+    #[class("21")]
     CardinalityViolation,
+    #[class("22")]
     DataException(DataException),
+    #[class("23")]
     IntegrityConstraintViolation(IntegrityConstraintViolation),
+    #[class("24")]
     InvalidCursorState,
+    #[class("25")]
     InvalidTransactionState(InvalidTransactionState),
+    #[class("26")]
     InvalidSqlStatementName,
+    #[class("27")]
     TriggeredDataChangeViolation(TriggeredDataChangeViolation),
+    #[class("28")]
     InvalidAuthorizationSpecification,
+    #[class("2B")]
     DependentPrivilegeDescriptorsExist,
+    #[class("2C")]
     InvalidCharsetName,
+    #[class("2D")]
     InvalidTransactionTermination,
+    #[class("2E")]
     InvalidConnectionName,
+    #[class("2F")]
     SqlRoutineException(SqlRoutineException),
+    #[class("2H")]
     InvalidCollationName,
+    #[class("30")]
     InvalidSqlStatementIdentifier,
+    #[class("33")]
     InvalidSqlDescriptorName,
+    #[class("34")]
     InvalidCursorName,
+    #[class("35")]
     InvalidConditionNumber,
+    #[class("36")]
     CursorSensitivityException(CursorSensitivityException),
+    #[class("38")]
     ExternalRoutineException(ExternalRoutineException),
+    #[class("39")]
     ExternalRoutineInvocationException(ExternalRoutineInvocationException),
+    #[class("3B")]
     SavepointException(SavepointException),
+    #[class("3C")]
     AmbiguousCursorName,
+    #[class("3D")]
     InvalidCatalogName,
+    #[class("3F")]
     InvalidSchemaName,
+    #[class("40")]
     TransactionRollback(TransactionRollback),
+    #[class("42")]
     SyntaxErrorOrAccessRuleViolation,
+    #[class("44")]
     WithCheckOptionViolation,
+    #[class("45")]
     UnhandledUserDefinedException,
+    #[class("46")]
     OlbSpecificError(OlbSpecificError),
+    #[class("HW")]
     DatalinkException(DatalinkException),
+    #[class("HV")]
     FdwSpecificCondition(FdwSpecificCondition),
+    #[class("HY")]
     CliSpecificCondition(CliSpecificCondition),
+    #[class("HZ")]
     RemoteDatabaseAccess(RemoteDatabaseAccess),
-    Other(String),
 }
 
 impl SqlState {
@@ -84,92 +141,6 @@ impl SqlState {
             Self::Warning(_) => Category::Warning,
             Self::NoData(_) => Category::NoData,
             _ => Category::Exception,
-        }
-    }
-}
-
-impl FromStr for SqlState {
-    type Err = ParseError;
-
-    fn from_str(value: &str) -> Result<Self, Self::Err> {
-        // SQL standard requires length to be 5 bytes
-        if value.len() != 5 {
-            return Err(ParseError::InvalidLength(value.len()));
-        }
-
-        let (class, subclass) = value.split_at(2);
-
-        match class {
-            "00" => Ok(Self::Success),
-            "01" => Ok(Self::Warning(subclass.parse().unwrap())),
-            "02" => Ok(Self::NoData(subclass.parse().unwrap())),
-            "07" => Ok(Self::DynamicSqlError(subclass.parse().unwrap())),
-            "08" => Ok(Self::ConnectionException(subclass.parse().unwrap())),
-            "09" => Ok(Self::TriggeredActionException),
-            "0A" => Ok(Self::FeatureNotSupported(subclass.parse().unwrap())),
-            "0D" => Ok(Self::InvalidTargetTypeSpecification),
-            "0E" => Ok(Self::InvalidSchemaNameListSpecification),
-            "0F" => Ok(Self::LocatorException(subclass.parse().unwrap())),
-            "0K" => Ok(Self::ResignalWhenHandlerNotActive),
-            "0L" => Ok(Self::InvalidGrantor),
-            "0M" => Ok(Self::InvalidSqlInvokedProcedureReference),
-            "0N" => Ok(Self::SqlXmlMappingError(subclass.parse().unwrap())),
-            "0P" => Ok(Self::InvalidRoleSpecification),
-            "0S" => Ok(Self::InvalidTransformGroupNameSpecification),
-            "0T" => Ok(Self::TargetTableDisagreesWithCursorSpecification),
-            "0U" => Ok(Self::AttemptToAssignToNonUpdatableColumn),
-            "0V" => Ok(Self::AttemptToAssignToOrderingColumn),
-            "0W" => Ok(Self::ProhibitedStatementDuringTriggerExecution(
-                subclass.parse().unwrap(),
-            )),
-            "0X" => Ok(Self::InvalidForeignServerSpecification),
-            "0Y" => Ok(Self::PassthroughSpecificCondition(
-                subclass.parse().unwrap(),
-            )),
-            "0Z" => Ok(Self::DiagnosticsException(subclass.parse().unwrap())),
-            "10" => Ok(Self::XQueryError),
-            "20" => Ok(Self::CaseNotFoundForCaseStatement),
-            "21" => Ok(Self::CardinalityViolation),
-            "22" => Ok(Self::DataException(subclass.parse().unwrap())),
-            "23" => Ok(Self::IntegrityConstraintViolation(
-                subclass.parse().unwrap(),
-            )),
-            "24" => Ok(Self::InvalidCursorState),
-            "25" => Ok(Self::InvalidTransactionState(subclass.parse().unwrap())),
-            "26" => Ok(Self::InvalidSqlStatementName),
-            "27" => Ok(Self::TriggeredDataChangeViolation(
-                subclass.parse().unwrap(),
-            )),
-            "28" => Ok(Self::InvalidAuthorizationSpecification),
-            "2B" => Ok(Self::DependentPrivilegeDescriptorsExist),
-            "2C" => Ok(Self::InvalidCharsetName),
-            "2D" => Ok(Self::InvalidTransactionTermination),
-            "2E" => Ok(Self::InvalidConnectionName),
-            "2F" => Ok(Self::SqlRoutineException(subclass.parse().unwrap())),
-            "2H" => Ok(Self::InvalidCollationName),
-            "30" => Ok(Self::InvalidSqlStatementIdentifier),
-            "33" => Ok(Self::InvalidSqlDescriptorName),
-            "34" => Ok(Self::InvalidCursorName),
-            "35" => Ok(Self::InvalidConditionNumber),
-            "36" => Ok(Self::CursorSensitivityException(subclass.parse().unwrap())),
-            "38" => Ok(Self::ExternalRoutineException(subclass.parse().unwrap())),
-            "39" => Ok(Self::ExternalRoutineInvocationException(
-                subclass.parse().unwrap(),
-            )),
-            "3B" => Ok(Self::SavepointException(subclass.parse().unwrap())),
-            "3C" => Ok(Self::AmbiguousCursorName),
-            "3D" => Ok(Self::InvalidCatalogName),
-            "3F" => Ok(Self::InvalidSchemaName),
-            "40" => Ok(Self::TransactionRollback(subclass.parse().unwrap())),
-            "42" => Ok(Self::SyntaxErrorOrAccessRuleViolation),
-            "44" => Ok(Self::WithCheckOptionViolation),
-            "45" => Ok(Self::UnhandledUserDefinedException),
-            "46" => Ok(Self::OlbSpecificError(subclass.parse().unwrap())),
-            "HW" => Ok(Self::DatalinkException(subclass.parse().unwrap())),
-            "HV" => Ok(Self::FdwSpecificCondition(subclass.parse().unwrap())),
-            "HY" => Ok(Self::CliSpecificCondition(subclass.parse().unwrap())),
-            "HZ" => Ok(Self::RemoteDatabaseAccess(subclass.parse().unwrap())),
-            _ => Ok(Self::Other(value.to_string())),
         }
     }
 }

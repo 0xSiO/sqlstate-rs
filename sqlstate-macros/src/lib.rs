@@ -98,7 +98,7 @@ pub fn state(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
     let variants = &state_enum.variants;
     let from_str_arms = classes.iter().map(|(code, (variant, is_tuple))| {
         if *is_tuple {
-            quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())) }
+            quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())), }
         } else {
             quote! { #code => Ok(Self::#variant), }
         }
@@ -124,7 +124,7 @@ pub fn state(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
 
                 match class {
                     #(#from_str_arms)*
-                    _ => Ok(Self::Other(value.to_string())),
+                    _ => Ok(Self::Other(s.to_string())),
                 }
             }
         }
