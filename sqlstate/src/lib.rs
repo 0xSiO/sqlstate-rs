@@ -1,10 +1,10 @@
+pub mod class;
 pub mod error;
 pub mod postgres;
-pub mod subclass;
 
 use std::str::FromStr;
 
-pub use self::{error::ParseError, subclass::*};
+pub use self::{class::*, error::ParseError};
 
 pub enum Category {
     Success,
