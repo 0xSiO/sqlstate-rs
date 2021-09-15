@@ -1,8 +1,10 @@
 use std::str::FromStr;
 
+use crate::error::ParseError;
+
 pub mod class;
 
-use crate::{error::ParseError, standard::class::*};
+use self::class::*;
 
 pub enum Category {
     Success,
