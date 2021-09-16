@@ -35,6 +35,47 @@ impl Class {
             is_standard,
         }
     }
+
+    fn from_str_impl(&self) -> proc_macro2::TokenStream {
+        let class_ident = &self.class_enum.ident;
+
+        let err_type = if self.is_standard {
+            quote! { crate::error::ParseError }
+        } else {
+            quote! { ::str::convert::Infallible }
+        };
+
+        let from_str_arms = self
+            .subclasses
+            .iter()
+            .map(|(variant, code)| quote! { #code => Ok(Self::#variant), });
+
+        let from_str_match = if self.is_standard {
+            quote! {
+                match s {
+                    #(#from_str_arms)*
+                    other => Ok(Self::Other(other.to_string())),
+                }
+            }
+        } else {
+            quote! {
+                match s {
+                    #(#from_str_arms)*
+                    other => Err(crate::error::ParseError::UnknownSubclass(other.to_string())),
+                }
+            }
+        };
+
+        quote! {
+            impl ::std::str::FromStr for #class_ident {
+                type Err = #err_type;
+
+                fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
+                    #from_str_match
+                }
+            }
+        }
+    }
 }
 
 #[proc_macro_attribute]
