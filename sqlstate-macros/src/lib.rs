@@ -100,24 +100,58 @@ pub fn state(attr_args: TokenStream, item: TokenStream) -> TokenStream {
         }
     }
 
-    let attributes = &state_enum.attrs;
-    let visibility = &state_enum.vis;
     let state_ident = &state_enum.ident;
-    let variants = &state_enum.variants;
+
+    let enum_definition = if is_standard {
+        // For standard types, add a catch-all 'Other' variant
+        let attributes = &state_enum.attrs;
+        let visibility = &state_enum.vis;
+        let variants = &state_enum.variants;
+        quote! {
+            #(#attributes)*
+            #visibility enum #state_ident {
+                #variants
+                Other(::std::string::String),
+            }
+        }
+    } else {
+        // For non-standard types, leave the enum definition alone
+        quote! { #state_enum }
+    };
+
     let from_str_arms = classes.iter().map(|(code, (variant, is_tuple))| {
         if *is_tuple {
-            quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())), }
+            // For standard types, parsing is infallible and can be unwrapped
+            if is_standard {
+                quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())), }
+            } else {
+                quote! { #code => Ok(Self::#variant(subclass.parse()?)), }
+            }
         } else {
             quote! { #code => Ok(Self::#variant), }
         }
     });
 
-    quote!(
-        #(#attributes)*
-        #visibility enum #state_ident {
-            #variants
-            Other(::std::string::String),
+    let from_str_match = if is_standard {
+        // For standard types, wrap unknown strings in 'Other' variant
+        quote! {
+            match class {
+                #(#from_str_arms)*
+                _ => Ok(Self::Other(s.to_string())),
+            }
         }
+    } else {
+        // For non-standard types, return an error
+        quote! {
+            match class {
+                #(#from_str_arms)*
+                _ => Err(crate::error::ParseError::UnknownState(s.to_string()))
+            }
+        }
+    };
+
+    quote!(
+        #enum_definition
 
         impl ::std::str::FromStr for #state_ident {
             type Err = crate::error::ParseError;
@@ -130,10 +164,7 @@ pub fn state(attr_args: TokenStream, item: TokenStream) -> TokenStream {
 
                 let (class, subclass) = s.split_at(2);
 
-                match class {
-                    #(#from_str_arms)*
-                    _ => Ok(Self::Other(s.to_string())),
-                }
+                #from_str_match
             }
         }
     )

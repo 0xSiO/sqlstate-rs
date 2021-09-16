@@ -2,6 +2,6 @@
 pub enum ParseError {
     #[error("invalid SQLSTATE length: {0}")]
     InvalidLength(usize),
-    #[error("invalid class: {0}")]
-    InvalidClass(String),
+    #[error("unknown state: {0}")]
+    UnknownState(String),
 }

@@ -1,3 +1,5 @@
+use sqlstate_macros::state;
+
 pub mod class;
 
 use self::class::*;
@@ -9,6 +11,7 @@ pub enum SqlState {
     Custom(PostgresSqlState),
 }
 
+#[state(non_standard)]
 pub enum PostgresSqlState {
     Warning(Warning),
     SqlStatementNotYetComplete,
