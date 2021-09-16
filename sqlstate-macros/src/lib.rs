@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use proc_macro::TokenStream;
-use quote::quote;
+use quote::{quote, ToTokens};
 use syn::{Fields, Ident, LitStr};
 
 #[proc_macro_attribute]
@@ -66,8 +66,16 @@ pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
-pub fn state(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
+pub fn state(attr_args: TokenStream, item: TokenStream) -> TokenStream {
     let mut state_enum = syn::parse_macro_input!(item as syn::ItemEnum);
+    let args = syn::parse_macro_input!(attr_args as syn::AttributeArgs);
+
+    let is_standard = match args[0].to_token_stream().to_string().as_str() {
+        "standard" => true,
+        "non_standard" => false,
+        other => panic!("invalid argument '{}'", other),
+    };
+
     // Mapping of class code -> (variant ident, whether it's a tuple variant)
     let mut classes: HashMap<LitStr, (Ident, bool)> = HashMap::new();
 

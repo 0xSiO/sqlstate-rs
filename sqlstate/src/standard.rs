@@ -11,7 +11,7 @@ pub enum Category {
     Exception,
 }
 
-#[state]
+#[state(standard)]
 #[non_exhaustive]
 pub enum SqlState {
     #[class("00")]
