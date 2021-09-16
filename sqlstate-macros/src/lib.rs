@@ -76,6 +76,38 @@ impl Class {
             }
         }
     }
+
+    fn as_str_impl(&self) -> proc_macro2::TokenStream {
+        let class_ident = &self.class_enum.ident;
+
+        let as_str_arms = self
+            .subclasses
+            .iter()
+            .map(|(variant, code)| quote! { Self::#variant => #code, });
+
+        let as_str_match = if self.is_standard {
+            quote! {
+                match self {
+                    #(#as_str_arms)*
+                    Self::Other(subclass) => subclass.as_str(),
+                }
+            }
+        } else {
+            quote! {
+                match self {
+                    #(#as_str_arms)*
+                }
+            }
+        };
+
+        quote! {
+            impl #class_ident {
+                pub fn as_str(&self) -> &str {
+                    #as_str_match
+                }
+            }
+        }
+    }
 }
 
 #[proc_macro_attribute]
