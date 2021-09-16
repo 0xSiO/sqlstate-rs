@@ -1,6 +1,6 @@
 use sqlstate_macros::class;
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum Warning {
     #[subclass("001")]
@@ -41,14 +41,14 @@ pub enum Warning {
     ArrayDataRightTruncation,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum NoData {
     #[subclass("001")]
     NoAdditionalResultSetsReturned,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum DynamicSqlError {
     #[subclass("001")]
@@ -81,7 +81,7 @@ pub enum DynamicSqlError {
     InvalidDatetimeIntervalCode,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum ConnectionException {
     #[subclass("001")]
@@ -98,21 +98,21 @@ pub enum ConnectionException {
     TransactionResolutionUnknown,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum FeatureNotSupported {
     #[subclass("001")]
     MultipleServerTransactions,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum LocatorException {
     #[subclass("001")]
     InvalidSpecification,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum SqlXmlMappingError {
     #[subclass("001")]
@@ -121,14 +121,14 @@ pub enum SqlXmlMappingError {
     InvalidXmlCharacter,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum ProhibitedStatementDuringTriggerExecution {
     #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum PassthroughSpecificCondition {
     #[subclass("001")]
@@ -137,7 +137,7 @@ pub enum PassthroughSpecificCondition {
     InvalidCursorAllocation,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum DiagnosticsException {
     #[subclass("001")]
@@ -146,7 +146,7 @@ pub enum DiagnosticsException {
     StackedDiagnosticsAccessedWithoutActiveHandler,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum DataException {
     #[subclass("001")]
@@ -301,14 +301,14 @@ pub enum DataException {
     InvalidSampleSize,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum IntegrityConstraintViolation {
     #[subclass("001")]
     RestrictViolation,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum InvalidTransactionState {
     #[subclass("001")]
@@ -329,14 +329,14 @@ pub enum InvalidTransactionState {
     HeldCursorRequiresSameIsolationLevel,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum TriggeredDataChangeViolation {
     #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum SqlRoutineException {
     #[subclass("002")]
@@ -349,7 +349,7 @@ pub enum SqlRoutineException {
     FunctionExecutedNoReturnStatement,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum CursorSensitivityException {
     #[subclass("001")]
@@ -358,7 +358,7 @@ pub enum CursorSensitivityException {
     RequestFailed,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum ExternalRoutineException {
     #[subclass("001")]
@@ -371,14 +371,14 @@ pub enum ExternalRoutineException {
     ReadingSqlDataNotPermitted,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
     #[subclass("001")]
     NullValueNotAllowed,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum SavepointException {
     #[subclass("001")]
@@ -387,7 +387,7 @@ pub enum SavepointException {
     TooManySavepoints,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum TransactionRollback {
     #[subclass("001")]
@@ -400,7 +400,7 @@ pub enum TransactionRollback {
     TriggeredActionException,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum OlbSpecificError {
     #[subclass("001")]
@@ -437,7 +437,7 @@ pub enum OlbSpecificError {
     InvalidProfileState,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum DatalinkException {
     #[subclass("001")]
@@ -456,7 +456,7 @@ pub enum DatalinkException {
     ReferencedFileNotValid,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum FdwSpecificCondition {
     #[subclass("001")]
@@ -513,7 +513,7 @@ pub enum FdwSpecificCondition {
     InvalidDescriptorFieldIdentifier,
 }
 
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum CliSpecificCondition {
     // No subclass value defined for these two variants.
@@ -590,6 +590,6 @@ pub enum CliSpecificCondition {
 }
 
 // TODO: RDA subconditions in ISO9579
-#[class]
+#[class(standard)]
 #[non_exhaustive]
 pub enum RemoteDatabaseAccess {}

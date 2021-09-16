@@ -4,4 +4,6 @@ pub enum ParseError {
     InvalidLength(usize),
     #[error("unknown state: {0}")]
     UnknownState(String),
+    #[error("unknown subclass: {0}")]
+    UnknownSubclass(String),
 }

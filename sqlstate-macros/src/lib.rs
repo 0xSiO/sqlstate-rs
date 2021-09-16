@@ -4,171 +4,32 @@ use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use syn::{Fields, Ident, ItemEnum, LitStr};
 
-struct Class {
-    class_enum: ItemEnum,
-    subclasses: HashMap<Ident, LitStr>,
-    is_standard: bool,
-}
+mod class;
 
-impl Class {
-    fn new(mut class_enum: ItemEnum, is_standard: bool) -> Self {
-        let mut subclasses = HashMap::new();
-
-        for variant in class_enum.variants.iter_mut() {
-            let attrs = &mut variant.attrs;
-            // TODO: Replace with attrs.drain_filter(...)
-            let mut i = 0;
-            while i < attrs.len() {
-                if attrs[i].path.is_ident("subclass") {
-                    let attr = attrs.remove(i);
-                    let code: LitStr = attr.parse_args().unwrap();
-                    subclasses.insert(variant.ident.clone(), code);
-                } else {
-                    i += 1;
-                }
-            }
-        }
-
-        Class {
-            class_enum,
-            subclasses,
-            is_standard,
-        }
-    }
-
-    fn from_str_impl(&self) -> proc_macro2::TokenStream {
-        let class_ident = &self.class_enum.ident;
-
-        let err_type = if self.is_standard {
-            quote! { crate::error::ParseError }
-        } else {
-            quote! { ::str::convert::Infallible }
-        };
-
-        let from_str_arms = self
-            .subclasses
-            .iter()
-            .map(|(variant, code)| quote! { #code => Ok(Self::#variant), });
-
-        let from_str_match = if self.is_standard {
-            quote! {
-                match s {
-                    #(#from_str_arms)*
-                    other => Ok(Self::Other(other.to_string())),
-                }
-            }
-        } else {
-            quote! {
-                match s {
-                    #(#from_str_arms)*
-                    other => Err(crate::error::ParseError::UnknownSubclass(other.to_string())),
-                }
-            }
-        };
-
-        quote! {
-            impl ::std::str::FromStr for #class_ident {
-                type Err = #err_type;
-
-                fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
-                    #from_str_match
-                }
-            }
-        }
-    }
-
-    fn as_str_impl(&self) -> proc_macro2::TokenStream {
-        let class_ident = &self.class_enum.ident;
-
-        let as_str_arms = self
-            .subclasses
-            .iter()
-            .map(|(variant, code)| quote! { Self::#variant => #code, });
-
-        let as_str_match = if self.is_standard {
-            quote! {
-                match self {
-                    #(#as_str_arms)*
-                    Self::Other(subclass) => subclass.as_str(),
-                }
-            }
-        } else {
-            quote! {
-                match self {
-                    #(#as_str_arms)*
-                }
-            }
-        };
-
-        quote! {
-            impl #class_ident {
-                pub fn as_str(&self) -> &str {
-                    #as_str_match
-                }
-            }
-        }
-    }
-}
+use self::class::Class;
 
 #[proc_macro_attribute]
-pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
-    let mut class_enum = syn::parse_macro_input!(item as ItemEnum);
-    let mut subclasses: HashMap<Ident, LitStr> = HashMap::new();
+pub fn class(attr_args: TokenStream, item: TokenStream) -> TokenStream {
+    let class_enum = syn::parse_macro_input!(item as ItemEnum);
+    let args = syn::parse_macro_input!(attr_args as syn::AttributeArgs);
 
-    for variant in class_enum.variants.iter_mut() {
-        let attrs = &mut variant.attrs;
-        // TODO: Replace with attrs.drain_filter(...)
-        let mut i = 0;
-        while i < attrs.len() {
-            if attrs[i].path.is_ident("subclass") {
-                let attr = attrs.remove(i);
-                let code: LitStr = attr.parse_args().unwrap();
-                subclasses.insert(variant.ident.clone(), code);
-            } else {
-                i += 1;
-            }
-        }
+    if args.len() != 1 {
+        return quote!(compile_error!("class type must be provided")).into();
     }
 
-    let attributes = &class_enum.attrs;
-    let visibility = &class_enum.vis;
-    let class_ident = &class_enum.ident;
-    let variants = &class_enum.variants;
-    let from_str_arms = subclasses
-        .iter()
-        .map(|(variant, code)| quote! { #code => Ok(Self::#variant), });
-    let as_str_arms = subclasses
-        .iter()
-        .map(|(variant, code)| quote! { Self::#variant => #code, });
-
-    quote!(
-        #(#attributes)*
-        #visibility enum #class_ident {
-            #variants
-            Other(::std::string::String),
+    let is_standard = match args[0].to_token_stream().to_string().as_str() {
+        "standard" => true,
+        "non_standard" => false,
+        _ => {
+            return quote!(compile_error!(
+                "invalid argument. must be standard/non_standard"
+            );)
+            .into()
         }
+    };
 
-        impl ::std::str::FromStr for #class_ident {
-            type Err = ::std::convert::Infallible;
-
-            fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
-                match s {
-                    #(#from_str_arms)*
-                    other => Ok(Self::Other(other.to_string())),
-                }
-            }
-        }
-
-        impl #class_ident {
-            pub fn as_str(&self) -> &str {
-                match self {
-                    #(#as_str_arms)*
-                    Self::Other(subclass) => subclass.as_str(),
-                }
-            }
-        }
-    )
-    .into()
+    let class = Class::new(class_enum, is_standard);
+    quote!(#class).into()
 }
 
 #[proc_macro_attribute]
