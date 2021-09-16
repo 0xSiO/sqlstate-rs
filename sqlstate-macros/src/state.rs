@@ -63,13 +63,7 @@ impl State {
     fn from_str_impl(&self) -> TokenStream {
         let class_ident = &self.state_enum.ident;
 
-        let err_type = if self.is_standard {
-            quote! { ::std::convert::Infallible }
-        } else {
-            quote! { crate::error::ParseError }
-        };
-
-        let from_str_arms = self.classes.iter().map(|(code, (variant, is_tuple))| {
+        let from_str_arms = self.classes.iter().map(|(variant, (code, is_tuple))| {
             if *is_tuple {
                 if self.is_standard {
                     // For standard types, parsing is infallible and can be unwrapped
@@ -100,9 +94,16 @@ impl State {
 
         quote! {
             impl ::std::str::FromStr for #class_ident {
-                type Err = #err_type;
+                type Err = crate::error::ParseError;
 
                 fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
+                    // SQL standard requires length to be 5 bytes
+                    if s.len() != 5 {
+                        return Err(crate::error::ParseError::InvalidLength(s.len()));
+                    }
+
+                    let (class, subclass) = s.split_at(2);
+
                     #from_str_match
                 }
             }
