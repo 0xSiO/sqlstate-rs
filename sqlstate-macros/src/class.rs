@@ -29,7 +29,7 @@ impl Class {
             }
         }
 
-        Class {
+        Self {
             class_enum,
             subclasses,
             is_standard,
