@@ -2,11 +2,44 @@ use std::collections::HashMap;
 
 use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
-use syn::{Fields, Ident, LitStr};
+use syn::{Fields, Ident, ItemEnum, LitStr};
+
+struct Class {
+    class_enum: ItemEnum,
+    subclasses: HashMap<Ident, LitStr>,
+    is_standard: bool,
+}
+
+impl Class {
+    fn new(mut class_enum: ItemEnum, is_standard: bool) -> Self {
+        let mut subclasses = HashMap::new();
+
+        for variant in class_enum.variants.iter_mut() {
+            let attrs = &mut variant.attrs;
+            // TODO: Replace with attrs.drain_filter(...)
+            let mut i = 0;
+            while i < attrs.len() {
+                if attrs[i].path.is_ident("subclass") {
+                    let attr = attrs.remove(i);
+                    let code: LitStr = attr.parse_args().unwrap();
+                    subclasses.insert(variant.ident.clone(), code);
+                } else {
+                    i += 1;
+                }
+            }
+        }
+
+        Class {
+            class_enum,
+            subclasses,
+            is_standard,
+        }
+    }
+}
 
 #[proc_macro_attribute]
 pub fn class(_attr_args: TokenStream, item: TokenStream) -> TokenStream {
-    let mut class_enum = syn::parse_macro_input!(item as syn::ItemEnum);
+    let mut class_enum = syn::parse_macro_input!(item as ItemEnum);
     let mut subclasses: HashMap<Ident, LitStr> = HashMap::new();
 
     for variant in class_enum.variants.iter_mut() {
