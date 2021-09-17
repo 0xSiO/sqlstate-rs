@@ -12,6 +12,7 @@ pub enum Category {
     Exception,
 }
 
+// TODO: Add Option<...> fields to all variants, for extensibility
 #[state(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
@@ -184,5 +185,67 @@ mod tests {
             "02001",
             SqlState::NoData(Some(NoData::NoAdditionalResultSetsReturned)),
         );
+    }
+
+    #[test]
+    fn dynamic_sql_error() {
+        check("07000", SqlState::DynamicSqlError(None));
+        check(
+            "07001",
+            SqlState::DynamicSqlError(Some(
+                DynamicSqlError::UsingClauseDoesNotMatchDynamicParameterSpecifications,
+            )),
+        );
+        check(
+            "07005",
+            SqlState::DynamicSqlError(Some(
+                DynamicSqlError::PreparedStatementNotACursorSpecification,
+            )),
+        );
+        check(
+            "0700B",
+            SqlState::DynamicSqlError(Some(DynamicSqlError::DataTypeTransformFunctionViolation)),
+        );
+        check(
+            "0700F",
+            SqlState::DynamicSqlError(Some(DynamicSqlError::InvalidDatetimeIntervalCode)),
+        );
+    }
+
+    #[test]
+    fn connection_exception() {
+        check("08000", SqlState::ConnectionException(None));
+        check(
+            "08002",
+            SqlState::ConnectionException(Some(ConnectionException::ConnectionNameInUse)),
+        );
+        check(
+            "08007",
+            SqlState::ConnectionException(Some(ConnectionException::TransactionResolutionUnknown)),
+        );
+    }
+
+    #[test]
+    fn triggered_action_exception() {
+        check("09000", SqlState::TriggeredActionException);
+    }
+
+    #[test]
+    fn feature_not_supported() {
+        check("0A000", SqlState::FeatureNotSupported(None));
+        check(
+            "0A001",
+            SqlState::FeatureNotSupported(Some(FeatureNotSupported::MultipleServerTransactions)),
+        );
+    }
+
+    #[test]
+    fn invalid_target_type_specification() {
+        check("0D000", SqlState::InvalidTargetTypeSpecification);
+    }
+
+    #[test]
+    fn invalid_schema_name_list_specification() {
+        check("0E000", SqlState::InvalidSchemaNameListSpecification);
     }
 }
