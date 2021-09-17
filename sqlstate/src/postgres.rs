@@ -19,11 +19,11 @@ pub enum PostgresSqlState {
     #[class("01")]
     Warning(Option<Warning>),
     #[class("03")]
-    SqlStatementNotYetComplete,
+    SqlStatementNotYetComplete(Option<SqlStatementNotYetComplete>),
     #[class("08")]
     ConnectionException(Option<ConnectionException>),
     #[class("0B")]
-    InvalidTransactionInitiation,
+    InvalidTransactionInitiation(Option<InvalidTransactionInitiation>),
     #[class("0L")]
     InvalidGrantor(Option<InvalidGrantor>),
     #[class("22")]
@@ -53,7 +53,7 @@ pub enum PostgresSqlState {
     #[class("58")]
     SystemError(Option<SystemError>),
     #[class("72")]
-    SnapshotFailure,
+    SnapshotFailure(Option<SnapshotFailure>),
     #[class("F0")]
     ConfigurationFileError(Option<ConfigurationFileError>),
     #[class("P0")]

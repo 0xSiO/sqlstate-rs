@@ -2,11 +2,11 @@ use std::collections::HashMap;
 
 use proc_macro2::TokenStream;
 use quote::{quote, ToTokens, TokenStreamExt};
-use syn::{Fields, Ident, ItemEnum, LitStr};
+use syn::{Ident, ItemEnum, LitStr};
 
 pub struct State {
     state_enum: ItemEnum,
-    classes: HashMap<Ident, (LitStr, bool)>,
+    classes: HashMap<Ident, LitStr>,
     is_standard: bool,
 }
 
@@ -22,10 +22,7 @@ impl State {
                 if attrs[i].path.is_ident("class") {
                     let attr = attrs.remove(i);
                     let code: LitStr = attr.parse_args().unwrap();
-                    classes.insert(
-                        variant.ident.clone(),
-                        (code, matches!(variant.fields, Fields::Unnamed(_))),
-                    );
+                    classes.insert(variant.ident.clone(), code);
                 } else {
                     i += 1;
                 }
@@ -63,27 +60,23 @@ impl State {
     fn from_str_impl(&self) -> TokenStream {
         let class_ident = &self.state_enum.ident;
 
-        let from_str_arms = self.classes.iter().map(|(variant, (code, is_tuple))| {
-            if *is_tuple {
-                let parse_logic = if self.is_standard {
-                    // For standard types, parsing is infallible and can be unwrapped
-                    quote! { subclass.parse().unwrap() }
-                } else {
-                    // For non-standard types, propagate parsing errors
-                    quote! { subclass.parse()? }
-                };
-
-                quote! {
-                    #code => Ok(Self::#variant(
-                        if subclass == "000" {
-                            None
-                        } else {
-                            Some(#parse_logic)
-                        }
-                    )),
-                }
+        let from_str_arms = self.classes.iter().map(|(variant, code)| {
+            let parse_logic = if self.is_standard {
+                // For standard types, parsing is infallible and can be unwrapped
+                quote! { subclass.parse().unwrap() }
             } else {
-                quote! { #code => Ok(Self::#variant), }
+                // For non-standard types, propagate parsing errors
+                quote! { subclass.parse()? }
+            };
+
+            quote! {
+                #code => Ok(Self::#variant(
+                    if subclass == "000" {
+                        None
+                    } else {
+                        Some(#parse_logic)
+                    }
+                )),
             }
         });
 

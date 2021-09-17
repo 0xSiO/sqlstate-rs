@@ -13,10 +13,20 @@ pub enum Warning {
 #[class(non_standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum SqlStatementNotYetComplete {}
+
+#[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum ConnectionException {
     #[subclass("P01")]
     ProtocolViolation,
 }
+
+#[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidTransactionInitiation {}
 
 #[class(non_standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -301,6 +311,11 @@ pub enum SystemError {
     #[subclass("P02")]
     DuplicateFile,
 }
+
+#[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum SnapshotFailure {}
 
 #[class(non_standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]

@@ -3,6 +3,11 @@ use sqlstate_macros::class;
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum Success {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum Warning {
     #[subclass("001")]
     CursorOperationConflict,
@@ -105,6 +110,11 @@ pub enum ConnectionException {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum TriggeredActionException {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum FeatureNotSupported {
     #[subclass("001")]
     MultipleServerTransactions,
@@ -113,10 +123,35 @@ pub enum FeatureNotSupported {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum InvalidTargetTypeSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidSchemaNameListSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum LocatorException {
     #[subclass("001")]
     InvalidSpecification,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum ResignalWhenHandlerNotActive {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidGrantor {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidSqlInvokedProcedureReference {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -131,10 +166,40 @@ pub enum SqlXmlMappingError {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum InvalidRoleSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidTransformGroupNameSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum TargetTableDisagreesWithCursorSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum AttemptToAssignToNonUpdatableColumn {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum AttemptToAssignToOrderingColumn {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum ProhibitedStatementDuringTriggerExecution {
     #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidForeignServerSpecification {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -155,6 +220,21 @@ pub enum DiagnosticsException {
     #[subclass("002")]
     StackedDiagnosticsAccessedWithoutActiveHandler,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum XQueryError {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum CaseNotFoundForCaseStatement {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum CardinalityViolation {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -323,6 +403,11 @@ pub enum IntegrityConstraintViolation {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum InvalidCursorState {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum InvalidTransactionState {
     #[subclass("001")]
     ActiveSqlTransaction,
@@ -345,10 +430,40 @@ pub enum InvalidTransactionState {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum InvalidSqlStatementName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum TriggeredDataChangeViolation {
     #[subclass("001")]
     ModifyTableModifiedByDataChangeDeltaTable,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidAuthorizationSpecification {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum DependentPrivilegeDescriptorsExist {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidCharsetName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidTransactionTermination {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidConnectionName {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -363,6 +478,31 @@ pub enum SqlRoutineException {
     #[subclass("005")]
     FunctionExecutedNoReturnStatement,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidCollationName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidSqlStatementIdentifier {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidSqlDescriptorName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidCursorName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidConditionNumber {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -409,6 +549,21 @@ pub enum SavepointException {
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
+pub enum AmbiguousCursorName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidCatalogName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum InvalidSchemaName {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
 pub enum TransactionRollback {
     #[subclass("001")]
     SerializationFailure,
@@ -419,6 +574,21 @@ pub enum TransactionRollback {
     #[subclass("004")]
     TriggeredActionException,
 }
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum SyntaxErrorOrAccessRuleViolation {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum WithCheckOptionViolation {}
+
+#[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[non_exhaustive]
+pub enum UnhandledUserDefinedException {}
 
 #[class(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]

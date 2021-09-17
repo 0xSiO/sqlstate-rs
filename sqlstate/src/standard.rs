@@ -12,13 +12,12 @@ pub enum Category {
     Exception,
 }
 
-// TODO: Add Option<...> fields to all variants, for extensibility
 #[state(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SqlState {
     #[class("00")]
-    Success,
+    Success(Option<Success>),
     #[class("01")]
     Warning(Option<Warning>),
     #[class("02")]
@@ -28,81 +27,83 @@ pub enum SqlState {
     #[class("08")]
     ConnectionException(Option<ConnectionException>),
     #[class("09")]
-    TriggeredActionException,
+    TriggeredActionException(Option<TriggeredActionException>),
     #[class("0A")]
     FeatureNotSupported(Option<FeatureNotSupported>),
     #[class("0D")]
-    InvalidTargetTypeSpecification,
+    InvalidTargetTypeSpecification(Option<InvalidTargetTypeSpecification>),
     #[class("0E")]
-    InvalidSchemaNameListSpecification,
+    InvalidSchemaNameListSpecification(Option<InvalidSchemaNameListSpecification>),
     #[class("0F")]
     LocatorException(Option<LocatorException>),
     #[class("0K")]
-    ResignalWhenHandlerNotActive,
+    ResignalWhenHandlerNotActive(Option<ResignalWhenHandlerNotActive>),
     #[class("0L")]
-    InvalidGrantor,
+    InvalidGrantor(Option<InvalidGrantor>),
     #[class("0M")]
-    InvalidSqlInvokedProcedureReference,
+    InvalidSqlInvokedProcedureReference(Option<InvalidSqlInvokedProcedureReference>),
     #[class("0N")]
     SqlXmlMappingError(Option<SqlXmlMappingError>),
     #[class("0P")]
-    InvalidRoleSpecification,
+    InvalidRoleSpecification(Option<InvalidRoleSpecification>),
     #[class("0S")]
-    InvalidTransformGroupNameSpecification,
+    InvalidTransformGroupNameSpecification(Option<InvalidTransformGroupNameSpecification>),
     #[class("0T")]
-    TargetTableDisagreesWithCursorSpecification,
+    TargetTableDisagreesWithCursorSpecification(
+        Option<TargetTableDisagreesWithCursorSpecification>,
+    ),
     #[class("0U")]
-    AttemptToAssignToNonUpdatableColumn,
+    AttemptToAssignToNonUpdatableColumn(Option<AttemptToAssignToNonUpdatableColumn>),
     #[class("0V")]
-    AttemptToAssignToOrderingColumn,
+    AttemptToAssignToOrderingColumn(Option<AttemptToAssignToOrderingColumn>),
     #[class("0W")]
     ProhibitedStatementDuringTriggerExecution(Option<ProhibitedStatementDuringTriggerExecution>),
     #[class("0X")]
-    InvalidForeignServerSpecification,
+    InvalidForeignServerSpecification(Option<InvalidForeignServerSpecification>),
     #[class("0Y")]
     PassthroughSpecificCondition(Option<PassthroughSpecificCondition>),
     #[class("0Z")]
     DiagnosticsException(Option<DiagnosticsException>),
     #[class("10")]
-    XQueryError,
+    XQueryError(Option<XQueryError>),
     #[class("20")]
-    CaseNotFoundForCaseStatement,
+    CaseNotFoundForCaseStatement(Option<CaseNotFoundForCaseStatement>),
     #[class("21")]
-    CardinalityViolation,
+    CardinalityViolation(Option<CardinalityViolation>),
     #[class("22")]
     DataException(Option<DataException>),
     #[class("23")]
     IntegrityConstraintViolation(Option<IntegrityConstraintViolation>),
     #[class("24")]
-    InvalidCursorState,
+    InvalidCursorState(Option<InvalidCursorState>),
     #[class("25")]
     InvalidTransactionState(Option<InvalidTransactionState>),
     #[class("26")]
-    InvalidSqlStatementName,
+    InvalidSqlStatementName(Option<InvalidSqlStatementName>),
     #[class("27")]
     TriggeredDataChangeViolation(Option<TriggeredDataChangeViolation>),
     #[class("28")]
-    InvalidAuthorizationSpecification,
+    InvalidAuthorizationSpecification(Option<InvalidAuthorizationSpecification>),
     #[class("2B")]
-    DependentPrivilegeDescriptorsExist,
+    DependentPrivilegeDescriptorsExist(Option<DependentPrivilegeDescriptorsExist>),
     #[class("2C")]
-    InvalidCharsetName,
+    InvalidCharsetName(Option<InvalidCharsetName>),
     #[class("2D")]
-    InvalidTransactionTermination,
+    InvalidTransactionTermination(Option<InvalidTransactionTermination>),
     #[class("2E")]
-    InvalidConnectionName,
+    InvalidConnectionName(Option<InvalidConnectionName>),
     #[class("2F")]
     SqlRoutineException(Option<SqlRoutineException>),
     #[class("2H")]
-    InvalidCollationName,
+    InvalidCollationName(Option<InvalidCollationName>),
     #[class("30")]
-    InvalidSqlStatementIdentifier,
+    InvalidSqlStatementIdentifier(Option<InvalidSqlStatementIdentifier>),
     #[class("33")]
-    InvalidSqlDescriptorName,
+    InvalidSqlDescriptorName(Option<InvalidSqlDescriptorName>),
     #[class("34")]
-    InvalidCursorName,
+    InvalidCursorName(Option<InvalidCursorName>),
     #[class("35")]
-    InvalidConditionNumber,
+    InvalidConditionNumber(Option<InvalidConditionNumber>),
     #[class("36")]
     CursorSensitivityException(Option<CursorSensitivityException>),
     #[class("38")]
@@ -112,19 +113,19 @@ pub enum SqlState {
     #[class("3B")]
     SavepointException(Option<SavepointException>),
     #[class("3C")]
-    AmbiguousCursorName,
+    AmbiguousCursorName(Option<AmbiguousCursorName>),
     #[class("3D")]
-    InvalidCatalogName,
+    InvalidCatalogName(Option<InvalidCatalogName>),
     #[class("3F")]
-    InvalidSchemaName,
+    InvalidSchemaName(Option<InvalidSchemaName>),
     #[class("40")]
     TransactionRollback(Option<TransactionRollback>),
     #[class("42")]
-    SyntaxErrorOrAccessRuleViolation,
+    SyntaxErrorOrAccessRuleViolation(Option<SyntaxErrorOrAccessRuleViolation>),
     #[class("44")]
-    WithCheckOptionViolation,
+    WithCheckOptionViolation(Option<WithCheckOptionViolation>),
     #[class("45")]
-    UnhandledUserDefinedException,
+    UnhandledUserDefinedException(Option<UnhandledUserDefinedException>),
     #[class("46")]
     OlbSpecificError(Option<OlbSpecificError>),
     #[class("HW")]
@@ -140,7 +141,7 @@ pub enum SqlState {
 impl SqlState {
     pub fn category(&self) -> Category {
         match self {
-            Self::Success => Category::Success,
+            Self::Success(_) => Category::Success,
             Self::Warning(_) => Category::Warning,
             Self::NoData(_) => Category::NoData,
             _ => Category::Exception,
@@ -158,7 +159,7 @@ mod tests {
 
     #[test]
     fn success() {
-        check("00000", SqlState::Success);
+        check("00000", SqlState::Success(None));
     }
 
     #[test]
@@ -227,7 +228,7 @@ mod tests {
 
     #[test]
     fn triggered_action_exception() {
-        check("09000", SqlState::TriggeredActionException);
+        check("09000", SqlState::TriggeredActionException(None));
     }
 
     #[test]
@@ -241,11 +242,11 @@ mod tests {
 
     #[test]
     fn invalid_target_type_specification() {
-        check("0D000", SqlState::InvalidTargetTypeSpecification);
+        check("0D000", SqlState::InvalidTargetTypeSpecification(None));
     }
 
     #[test]
     fn invalid_schema_name_list_specification() {
-        check("0E000", SqlState::InvalidSchemaNameListSpecification);
+        check("0E000", SqlState::InvalidSchemaNameListSpecification(None));
     }
 }
