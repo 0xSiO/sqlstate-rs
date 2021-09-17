@@ -158,12 +158,29 @@ mod tests {
     }
 
     #[test]
-    fn success() {
+    fn empty_class() {
         check("00000", SqlState::Success(None));
+        check(
+            "00001",
+            SqlState::Success(Some(Success::Other(String::from("001")))),
+        );
     }
 
     #[test]
-    fn warning() {
+    fn one_subclass() {
+        check("02000", SqlState::NoData(None));
+        check(
+            "02001",
+            SqlState::NoData(Some(NoData::NoAdditionalResultSetsReturned)),
+        );
+        check(
+            "0200F",
+            SqlState::NoData(Some(NoData::Other(String::from("00F")))),
+        );
+    }
+
+    #[test]
+    fn many_subclasses() {
         check("01000", SqlState::Warning(None));
         check(
             "01005",
@@ -177,76 +194,9 @@ mod tests {
             "0102F",
             SqlState::Warning(Some(Warning::ArrayDataRightTruncation)),
         );
-    }
-
-    #[test]
-    fn no_data() {
-        check("02000", SqlState::NoData(None));
         check(
-            "02001",
-            SqlState::NoData(Some(NoData::NoAdditionalResultSetsReturned)),
-        );
-    }
-
-    #[test]
-    fn dynamic_sql_error() {
-        check("07000", SqlState::DynamicSqlError(None));
-        check(
-            "07001",
-            SqlState::DynamicSqlError(Some(
-                DynamicSqlError::UsingClauseDoesNotMatchDynamicParameterSpecifications,
-            )),
-        );
-        check(
-            "07005",
-            SqlState::DynamicSqlError(Some(
-                DynamicSqlError::PreparedStatementNotACursorSpecification,
-            )),
-        );
-        check(
-            "0700B",
-            SqlState::DynamicSqlError(Some(DynamicSqlError::DataTypeTransformFunctionViolation)),
-        );
-        check(
-            "0700F",
-            SqlState::DynamicSqlError(Some(DynamicSqlError::InvalidDatetimeIntervalCode)),
-        );
-    }
-
-    #[test]
-    fn connection_exception() {
-        check("08000", SqlState::ConnectionException(None));
-        check(
-            "08002",
-            SqlState::ConnectionException(Some(ConnectionException::ConnectionNameInUse)),
-        );
-        check(
-            "08007",
-            SqlState::ConnectionException(Some(ConnectionException::TransactionResolutionUnknown)),
-        );
-    }
-
-    #[test]
-    fn triggered_action_exception() {
-        check("09000", SqlState::TriggeredActionException(None));
-    }
-
-    #[test]
-    fn feature_not_supported() {
-        check("0A000", SqlState::FeatureNotSupported(None));
-        check(
-            "0A001",
-            SqlState::FeatureNotSupported(Some(FeatureNotSupported::MultipleServerTransactions)),
-        );
-    }
-
-    #[test]
-    fn invalid_target_type_specification() {
-        check("0D000", SqlState::InvalidTargetTypeSpecification(None));
-    }
-
-    #[test]
-    fn invalid_schema_name_list_specification() {
-        check("0E000", SqlState::InvalidSchemaNameListSpecification(None));
+            "01FFF",
+            SqlState::Warning(Some(Warning::Other(String::from("FFF")))),
+        )
     }
 }
