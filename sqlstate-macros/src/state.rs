@@ -65,12 +65,22 @@ impl State {
 
         let from_str_arms = self.classes.iter().map(|(variant, (code, is_tuple))| {
             if *is_tuple {
-                if self.is_standard {
+                let parse_logic = if self.is_standard {
                     // For standard types, parsing is infallible and can be unwrapped
-                    quote! { #code => Ok(Self::#variant(subclass.parse().unwrap())), }
+                    quote! { subclass.parse().unwrap() }
                 } else {
                     // For non-standard types, propagate parsing errors
-                    quote! { #code => Ok(Self::#variant(subclass.parse()?)), }
+                    quote! { subclass.parse()? }
+                };
+
+                quote! {
+                    #code => Ok(Self::#variant(
+                        if subclass == "000" {
+                            None
+                        } else {
+                            Some(#parse_logic)
+                        }
+                    )),
                 }
             } else {
                 quote! { #code => Ok(Self::#variant), }

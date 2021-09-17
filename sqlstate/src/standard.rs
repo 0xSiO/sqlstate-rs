@@ -19,23 +19,23 @@ pub enum SqlState {
     #[class("00")]
     Success,
     #[class("01")]
-    Warning(Warning),
+    Warning(Option<Warning>),
     #[class("02")]
-    NoData(NoData),
+    NoData(Option<NoData>),
     #[class("07")]
-    DynamicSqlError(DynamicSqlError),
+    DynamicSqlError(Option<DynamicSqlError>),
     #[class("08")]
-    ConnectionException(ConnectionException),
+    ConnectionException(Option<ConnectionException>),
     #[class("09")]
     TriggeredActionException,
     #[class("0A")]
-    FeatureNotSupported(FeatureNotSupported),
+    FeatureNotSupported(Option<FeatureNotSupported>),
     #[class("0D")]
     InvalidTargetTypeSpecification,
     #[class("0E")]
     InvalidSchemaNameListSpecification,
     #[class("0F")]
-    LocatorException(LocatorException),
+    LocatorException(Option<LocatorException>),
     #[class("0K")]
     ResignalWhenHandlerNotActive,
     #[class("0L")]
@@ -43,7 +43,7 @@ pub enum SqlState {
     #[class("0M")]
     InvalidSqlInvokedProcedureReference,
     #[class("0N")]
-    SqlXmlMappingError(SqlXmlMappingError),
+    SqlXmlMappingError(Option<SqlXmlMappingError>),
     #[class("0P")]
     InvalidRoleSpecification,
     #[class("0S")]
@@ -55,13 +55,13 @@ pub enum SqlState {
     #[class("0V")]
     AttemptToAssignToOrderingColumn,
     #[class("0W")]
-    ProhibitedStatementDuringTriggerExecution(ProhibitedStatementDuringTriggerExecution),
+    ProhibitedStatementDuringTriggerExecution(Option<ProhibitedStatementDuringTriggerExecution>),
     #[class("0X")]
     InvalidForeignServerSpecification,
     #[class("0Y")]
-    PassthroughSpecificCondition(PassthroughSpecificCondition),
+    PassthroughSpecificCondition(Option<PassthroughSpecificCondition>),
     #[class("0Z")]
-    DiagnosticsException(DiagnosticsException),
+    DiagnosticsException(Option<DiagnosticsException>),
     #[class("10")]
     XQueryError,
     #[class("20")]
@@ -69,17 +69,17 @@ pub enum SqlState {
     #[class("21")]
     CardinalityViolation,
     #[class("22")]
-    DataException(DataException),
+    DataException(Option<DataException>),
     #[class("23")]
-    IntegrityConstraintViolation(IntegrityConstraintViolation),
+    IntegrityConstraintViolation(Option<IntegrityConstraintViolation>),
     #[class("24")]
     InvalidCursorState,
     #[class("25")]
-    InvalidTransactionState(InvalidTransactionState),
+    InvalidTransactionState(Option<InvalidTransactionState>),
     #[class("26")]
     InvalidSqlStatementName,
     #[class("27")]
-    TriggeredDataChangeViolation(TriggeredDataChangeViolation),
+    TriggeredDataChangeViolation(Option<TriggeredDataChangeViolation>),
     #[class("28")]
     InvalidAuthorizationSpecification,
     #[class("2B")]
@@ -91,7 +91,7 @@ pub enum SqlState {
     #[class("2E")]
     InvalidConnectionName,
     #[class("2F")]
-    SqlRoutineException(SqlRoutineException),
+    SqlRoutineException(Option<SqlRoutineException>),
     #[class("2H")]
     InvalidCollationName,
     #[class("30")]
@@ -103,13 +103,13 @@ pub enum SqlState {
     #[class("35")]
     InvalidConditionNumber,
     #[class("36")]
-    CursorSensitivityException(CursorSensitivityException),
+    CursorSensitivityException(Option<CursorSensitivityException>),
     #[class("38")]
-    ExternalRoutineException(ExternalRoutineException),
+    ExternalRoutineException(Option<ExternalRoutineException>),
     #[class("39")]
-    ExternalRoutineInvocationException(ExternalRoutineInvocationException),
+    ExternalRoutineInvocationException(Option<ExternalRoutineInvocationException>),
     #[class("3B")]
-    SavepointException(SavepointException),
+    SavepointException(Option<SavepointException>),
     #[class("3C")]
     AmbiguousCursorName,
     #[class("3D")]
@@ -117,7 +117,7 @@ pub enum SqlState {
     #[class("3F")]
     InvalidSchemaName,
     #[class("40")]
-    TransactionRollback(TransactionRollback),
+    TransactionRollback(Option<TransactionRollback>),
     #[class("42")]
     SyntaxErrorOrAccessRuleViolation,
     #[class("44")]
@@ -125,15 +125,15 @@ pub enum SqlState {
     #[class("45")]
     UnhandledUserDefinedException,
     #[class("46")]
-    OlbSpecificError(OlbSpecificError),
+    OlbSpecificError(Option<OlbSpecificError>),
     #[class("HW")]
-    DatalinkException(DatalinkException),
+    DatalinkException(Option<DatalinkException>),
     #[class("HV")]
-    FdwSpecificCondition(FdwSpecificCondition),
+    FdwSpecificCondition(Option<FdwSpecificCondition>),
     #[class("HY")]
-    CliSpecificCondition(CliSpecificCondition),
+    CliSpecificCondition(Option<CliSpecificCondition>),
     #[class("HZ")]
-    RemoteDatabaseAccess(RemoteDatabaseAccess),
+    RemoteDatabaseAccess(Option<RemoteDatabaseAccess>),
 }
 
 impl SqlState {
@@ -144,5 +144,45 @@ impl SqlState {
             Self::NoData(_) => Category::NoData,
             _ => Category::Exception,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn check(state: &str, value: SqlState) {
+        assert_eq!(state.parse::<SqlState>().unwrap(), value);
+    }
+
+    #[test]
+    fn success() {
+        check("00000", SqlState::Success);
+    }
+
+    #[test]
+    fn warning() {
+        check("01000", SqlState::Warning(None));
+        check(
+            "01005",
+            SqlState::Warning(Some(Warning::InsufficientItemDescriptorAreas)),
+        );
+        check(
+            "0100A",
+            SqlState::Warning(Some(Warning::QueryExpressionTooLongForInformationSchema)),
+        );
+        check(
+            "0102F",
+            SqlState::Warning(Some(Warning::ArrayDataRightTruncation)),
+        );
+    }
+
+    #[test]
+    fn no_data() {
+        check("02000", SqlState::NoData(None));
+        check(
+            "02001",
+            SqlState::NoData(Some(NoData::NoAdditionalResultSetsReturned)),
+        );
     }
 }

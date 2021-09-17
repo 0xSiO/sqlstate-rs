@@ -17,47 +17,47 @@ pub enum SqlState {
 #[non_exhaustive]
 pub enum PostgresSqlState {
     #[class("01")]
-    Warning(Warning),
+    Warning(Option<Warning>),
     #[class("03")]
     SqlStatementNotYetComplete,
     #[class("08")]
-    ConnectionException(ConnectionException),
+    ConnectionException(Option<ConnectionException>),
     #[class("0B")]
     InvalidTransactionInitiation,
     #[class("0L")]
-    InvalidGrantor(InvalidGrantor),
+    InvalidGrantor(Option<InvalidGrantor>),
     #[class("22")]
-    DataException(DataException),
+    DataException(Option<DataException>),
     #[class("23")]
-    IntegrityConstraintViolation(IntegrityConstraintViolation),
+    IntegrityConstraintViolation(Option<IntegrityConstraintViolation>),
     #[class("25")]
-    InvalidTransactionState(InvalidTransactionState),
+    InvalidTransactionState(Option<InvalidTransactionState>),
     #[class("28")]
-    InvalidAuthorizationSpecification(InvalidAuthorizationSpecification),
+    InvalidAuthorizationSpecification(Option<InvalidAuthorizationSpecification>),
     #[class("2B")]
-    DependentPrivilegeDescriptorsExist(DependentPrivilegeDescriptorsExist),
+    DependentPrivilegeDescriptorsExist(Option<DependentPrivilegeDescriptorsExist>),
     #[class("39")]
-    ExternalRoutineInvocationException(ExternalRoutineInvocationException),
+    ExternalRoutineInvocationException(Option<ExternalRoutineInvocationException>),
     #[class("40")]
-    TransactionRollback(TransactionRollback),
+    TransactionRollback(Option<TransactionRollback>),
     #[class("42")]
-    SyntaxErrorOrAccessRuleViolation(SyntaxErrorOrAccessRuleViolation),
+    SyntaxErrorOrAccessRuleViolation(Option<SyntaxErrorOrAccessRuleViolation>),
     #[class("53")]
-    InsufficientResources(InsufficientResources),
+    InsufficientResources(Option<InsufficientResources>),
     #[class("54")]
-    ProgramLimitExceeded(ProgramLimitExceeded),
+    ProgramLimitExceeded(Option<ProgramLimitExceeded>),
     #[class("55")]
-    ObjectNotInPrerequisiteState(ObjectNotInPrerequisiteState),
+    ObjectNotInPrerequisiteState(Option<ObjectNotInPrerequisiteState>),
     #[class("57")]
-    OperatorIntervention(OperatorIntervention),
+    OperatorIntervention(Option<OperatorIntervention>),
     #[class("58")]
-    SystemError(SystemError),
+    SystemError(Option<SystemError>),
     #[class("72")]
     SnapshotFailure,
     #[class("F0")]
-    ConfigurationFileError(ConfigurationFileError),
+    ConfigurationFileError(Option<ConfigurationFileError>),
     #[class("P0")]
-    PlPgSqlError(PlPgSqlError),
+    PlPgSqlError(Option<PlPgSqlError>),
     #[class("XX")]
-    InternalError(InternalError),
+    InternalError(Option<InternalError>),
 }
