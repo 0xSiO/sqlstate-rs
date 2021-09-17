@@ -85,13 +85,6 @@ impl State {
             quote! { _ => Err(crate::error::ParseError::UnknownState(s.to_string())) }
         };
 
-        let from_str_match = quote! {
-            match class {
-                #(#from_str_arms)*
-                #wildcard_arm
-            }
-        };
-
         quote! {
             impl ::std::str::FromStr for #class_ident {
                 type Err = crate::error::ParseError;
@@ -104,7 +97,10 @@ impl State {
 
                     let (class, subclass) = s.split_at(2);
 
-                    #from_str_match
+                    match class {
+                        #(#from_str_arms)*
+                        #wildcard_arm
+                    }
                 }
             }
         }

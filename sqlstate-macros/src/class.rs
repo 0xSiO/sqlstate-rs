@@ -71,20 +71,12 @@ impl Class {
             .iter()
             .map(|(variant, code)| quote! { #code => Ok(Self::#variant), });
 
-        let from_str_match = if self.is_standard {
-            quote! {
-                match s {
-                    #(#from_str_arms)*
-                    other => Ok(Self::Other(other.to_string())),
-                }
-            }
+        let wildcard_arm = if self.is_standard {
+            // For standard types, wrap unknown strings in 'Other' variant
+            quote! { _ => Ok(Self::Other(s.to_string())), }
         } else {
-            quote! {
-                match s {
-                    #(#from_str_arms)*
-                    other => Err(crate::error::ParseError::UnknownSubclass(other.to_string())),
-                }
-            }
+            // For non-standard types, return an error
+            quote! { _ => Err(crate::error::ParseError::UnknownSubclass(s.to_string())) }
         };
 
         quote! {
@@ -92,7 +84,10 @@ impl Class {
                 type Err = #err_type;
 
                 fn from_str(s: &str) -> ::std::result::Result<Self, Self::Err> {
-                    #from_str_match
+                    match s {
+                        #(#from_str_arms)*
+                        #wildcard_arm
+                    }
                 }
             }
         }
@@ -106,25 +101,19 @@ impl Class {
             .iter()
             .map(|(variant, code)| quote! { Self::#variant => #code, });
 
-        let as_str_match = if self.is_standard {
-            quote! {
-                match self {
-                    #(#as_str_arms)*
-                    Self::Other(subclass) => subclass.as_str(),
-                }
-            }
+        let other_arm = if self.is_standard {
+            quote! { Self::Other(subclass) => subclass.as_str(), }
         } else {
-            quote! {
-                match self {
-                    #(#as_str_arms)*
-                }
-            }
+            quote!()
         };
 
         quote! {
             impl #class_ident {
                 pub fn as_str(&self) -> &str {
-                    #as_str_match
+                    match self {
+                        #(#as_str_arms)*
+                        #other_arm
+                    }
                 }
             }
         }
