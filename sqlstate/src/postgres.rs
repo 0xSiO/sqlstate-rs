@@ -1,30 +1,13 @@
-use std::{convert::Infallible, str::FromStr};
-
 use sqlstate_macros::state;
 
 pub mod class;
 
 use self::class::*;
 
-#[derive(Clone, Eq, PartialEq, Hash, Debug)]
-pub enum SqlState {
-    Standard(crate::standard::SqlState),
-    Custom(PostgresSqlState),
-}
-
-impl FromStr for SqlState {
-    type Err = Infallible;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(s.parse::<PostgresSqlState>()
-            .map_or_else(|_| Self::Standard(s.parse().unwrap()), Self::Custom))
-    }
-}
-
 #[state(non_standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
-pub enum PostgresSqlState {
+pub enum SqlState {
     #[class("01")]
     Warning(Option<Warning>),
     #[class("03")]

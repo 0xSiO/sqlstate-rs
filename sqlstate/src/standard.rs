@@ -1,16 +1,10 @@
 use sqlstate_macros::state;
 
+use crate::Category;
+
 pub mod class;
 
 use self::class::*;
-
-#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-pub enum Category {
-    Success,
-    Warning,
-    NoData,
-    Exception,
-}
 
 #[state(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]

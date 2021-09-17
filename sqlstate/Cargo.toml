@@ -7,6 +7,13 @@ repository = "https://github.com/lucis-fluxum/sqlstate-rs"
 license = "MIT"
 edition = "2018"
 
+[features]
+postgres = []
+
 [dependencies]
 sqlstate-macros = { path = "../sqlstate-macros", version = "0.0.0" }
 thiserror = "1.0.0"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
