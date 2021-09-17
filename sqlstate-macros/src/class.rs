@@ -103,14 +103,12 @@ impl Class {
 
         let other_arm = if self.is_standard {
             quote! { Self::Other(subclass) => subclass.as_str(), }
+        } else if self.subclasses.is_empty() {
+            // SAFETY: This is only included for non-standard state types with zero variants,
+            //         which can never be constructed.
+            quote! { _ => unsafe { ::std::hint::unreachable_unchecked() } }
         } else {
-            if self.subclasses.len() == 0 {
-                // SAFETY: This is only included for non-standard state types with zero variants,
-                //         which can never be constructed.
-                quote! { _ => unsafe { ::std::hint::unreachable_unchecked() } }
-            } else {
-                quote! {}
-            }
+            quote! {}
         };
 
         quote! {
