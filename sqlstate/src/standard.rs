@@ -178,6 +178,11 @@ mod tests {
     }
 
     #[test]
+    fn unknown_class() {
+        check("QQ999", SqlState::Other(String::from("QQ999")));
+    }
+
+    #[test]
     fn one_subclass() {
         check("02000", SqlState::NoData(None));
         check(
