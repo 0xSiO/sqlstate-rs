@@ -158,6 +158,17 @@ mod tests {
     }
 
     #[test]
+    fn categories() {
+        assert_eq!(SqlState::Success(None).category(), Category::Success);
+        assert_eq!(SqlState::Warning(None).category(), Category::Warning);
+        assert_eq!(SqlState::NoData(None).category(), Category::NoData);
+        assert_eq!(
+            SqlState::DynamicSqlError(Some(DynamicSqlError::InvalidDataTarget)).category(),
+            Category::Exception
+        );
+    }
+
+    #[test]
     fn empty_class() {
         check("00000", SqlState::Success(None));
         check(
