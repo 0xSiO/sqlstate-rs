@@ -374,7 +374,7 @@ pub enum ExternalRoutineException {
 #[class(standard)]
 #[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
-    #[subclass("001")]
+    #[subclass("004")]
     NullValueNotAllowed,
 }
 
