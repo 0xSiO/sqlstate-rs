@@ -6,12 +6,14 @@ use self::class::*;
 
 // TODO: For FromStr, throw error if unable to parse rather than returning Other("...")
 //       If error, then try parsing standard SqlState instead
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum SqlState {
     Standard(crate::standard::SqlState),
     Custom(PostgresSqlState),
 }
 
 #[state(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum PostgresSqlState {
     #[class("01")]

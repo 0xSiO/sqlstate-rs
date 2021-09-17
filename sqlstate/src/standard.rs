@@ -4,6 +4,7 @@ pub mod class;
 
 use self::class::*;
 
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum Category {
     Success,
     Warning,
@@ -12,6 +13,7 @@ pub enum Category {
 }
 
 #[state(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SqlState {
     #[class("00")]

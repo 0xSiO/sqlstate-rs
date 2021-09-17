@@ -1,6 +1,7 @@
 use sqlstate_macros::class;
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum Warning {
     #[subclass("001")]
@@ -42,6 +43,7 @@ pub enum Warning {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum NoData {
     #[subclass("001")]
@@ -49,6 +51,7 @@ pub enum NoData {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DynamicSqlError {
     #[subclass("001")]
@@ -82,6 +85,7 @@ pub enum DynamicSqlError {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ConnectionException {
     #[subclass("001")]
@@ -99,6 +103,7 @@ pub enum ConnectionException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum FeatureNotSupported {
     #[subclass("001")]
@@ -106,6 +111,7 @@ pub enum FeatureNotSupported {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum LocatorException {
     #[subclass("001")]
@@ -113,6 +119,7 @@ pub enum LocatorException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SqlXmlMappingError {
     #[subclass("001")]
@@ -122,6 +129,7 @@ pub enum SqlXmlMappingError {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ProhibitedStatementDuringTriggerExecution {
     #[subclass("001")]
@@ -129,6 +137,7 @@ pub enum ProhibitedStatementDuringTriggerExecution {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum PassthroughSpecificCondition {
     #[subclass("001")]
@@ -138,6 +147,7 @@ pub enum PassthroughSpecificCondition {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DiagnosticsException {
     #[subclass("001")]
@@ -147,6 +157,7 @@ pub enum DiagnosticsException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DataException {
     #[subclass("001")]
@@ -302,6 +313,7 @@ pub enum DataException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum IntegrityConstraintViolation {
     #[subclass("001")]
@@ -309,6 +321,7 @@ pub enum IntegrityConstraintViolation {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InvalidTransactionState {
     #[subclass("001")]
@@ -330,6 +343,7 @@ pub enum InvalidTransactionState {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum TriggeredDataChangeViolation {
     #[subclass("001")]
@@ -337,6 +351,7 @@ pub enum TriggeredDataChangeViolation {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SqlRoutineException {
     #[subclass("002")]
@@ -350,6 +365,7 @@ pub enum SqlRoutineException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum CursorSensitivityException {
     #[subclass("001")]
@@ -359,6 +375,7 @@ pub enum CursorSensitivityException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ExternalRoutineException {
     #[subclass("001")]
@@ -372,6 +389,7 @@ pub enum ExternalRoutineException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
     #[subclass("004")]
@@ -379,6 +397,7 @@ pub enum ExternalRoutineInvocationException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SavepointException {
     #[subclass("001")]
@@ -388,6 +407,7 @@ pub enum SavepointException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum TransactionRollback {
     #[subclass("001")]
@@ -401,6 +421,7 @@ pub enum TransactionRollback {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum OlbSpecificError {
     #[subclass("001")]
@@ -438,6 +459,7 @@ pub enum OlbSpecificError {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DatalinkException {
     #[subclass("001")]
@@ -457,6 +479,7 @@ pub enum DatalinkException {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum FdwSpecificCondition {
     #[subclass("001")]
@@ -514,6 +537,7 @@ pub enum FdwSpecificCondition {
 }
 
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum CliSpecificCondition {
     // No subclass value defined for these two variants.
@@ -591,5 +615,6 @@ pub enum CliSpecificCondition {
 
 // TODO: RDA subconditions in ISO9579
 #[class(standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum RemoteDatabaseAccess {}

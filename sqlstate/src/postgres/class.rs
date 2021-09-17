@@ -1,6 +1,7 @@
 use sqlstate_macros::class;
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum Warning {
     #[subclass("008")]
@@ -10,6 +11,7 @@ pub enum Warning {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ConnectionException {
     #[subclass("P01")]
@@ -17,6 +19,7 @@ pub enum ConnectionException {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InvalidGrantor {
     #[subclass("P01")]
@@ -24,6 +27,7 @@ pub enum InvalidGrantor {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DataException {
     #[subclass("030")]
@@ -73,6 +77,7 @@ pub enum DataException {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum IntegrityConstraintViolation {
     #[subclass("502")]
@@ -88,6 +93,7 @@ pub enum IntegrityConstraintViolation {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InvalidTransactionState {
     #[subclass("P01")]
@@ -99,6 +105,7 @@ pub enum InvalidTransactionState {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InvalidAuthorizationSpecification {
     #[subclass("P01")]
@@ -106,6 +113,7 @@ pub enum InvalidAuthorizationSpecification {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum DependentPrivilegeDescriptorsExist {
     #[subclass("P01")]
@@ -113,6 +121,7 @@ pub enum DependentPrivilegeDescriptorsExist {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ExternalRoutineInvocationException {
     #[subclass("001")]
@@ -126,6 +135,7 @@ pub enum ExternalRoutineInvocationException {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum TransactionRollback {
     #[subclass("P01")]
@@ -133,6 +143,7 @@ pub enum TransactionRollback {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SyntaxErrorOrAccessRuleViolation {
     #[subclass("501")]
@@ -224,6 +235,7 @@ pub enum SyntaxErrorOrAccessRuleViolation {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InsufficientResources {
     #[subclass("100")]
@@ -237,6 +249,7 @@ pub enum InsufficientResources {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ProgramLimitExceeded {
     #[subclass("001")]
@@ -248,6 +261,7 @@ pub enum ProgramLimitExceeded {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ObjectNotInPrerequisiteState {
     #[subclass("006")]
@@ -261,6 +275,7 @@ pub enum ObjectNotInPrerequisiteState {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum OperatorIntervention {
     #[subclass("014")]
@@ -276,6 +291,7 @@ pub enum OperatorIntervention {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum SystemError {
     #[subclass("030")]
@@ -287,6 +303,7 @@ pub enum SystemError {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum ConfigurationFileError {
     #[subclass("001")]
@@ -294,6 +311,7 @@ pub enum ConfigurationFileError {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum PlPgSqlError {
     #[subclass("001")]
@@ -307,6 +325,7 @@ pub enum PlPgSqlError {
 }
 
 #[class(non_standard)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
 pub enum InternalError {
     #[subclass("001")]

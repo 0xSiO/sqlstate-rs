@@ -1,4 +1,4 @@
-#[derive(Debug, thiserror::Error)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug, thiserror::Error)]
 pub enum ParseError {
     #[error("invalid SQLSTATE length: {0}")]
     InvalidLength(usize),
