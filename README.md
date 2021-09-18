@@ -8,10 +8,10 @@ A more human-readable representation of SQLSTATE error codes.
 
 `sqlstate` supports all standard SQL error codes as defined in ISO/IEC 9075.
 
-Databases may define custom error codes as well - `sqlstate` supports these additional error codes
-for the following databases:
+Databases may define custom error codes as well - `sqlstate` supports additional error codes for
+the following databases:
 
-- [PostgreSQL](https://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/docs/current/errcodes-appendix.html)
 
 ## Contributing
 
