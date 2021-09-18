@@ -1,6 +1,8 @@
 # sqlstate-rs
 [![CI](https://github.com/lucis-fluxum/sqlstate-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/lucis-fluxum/sqlstate-rs/actions/workflows/ci.yml)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![crates.io](https://img.shields.io/crates/v/sqlstate.svg)](https://crates.io/crates/sqlstate)
+[![API docs](https://docs.rs/sqlstate/badge.svg)](https://docs.rs/sqlstate)
 
 A more human-readable representation of SQLSTATE error codes.
 
