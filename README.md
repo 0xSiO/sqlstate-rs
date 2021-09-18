@@ -4,7 +4,8 @@
 [![crates.io](https://img.shields.io/crates/v/sqlstate.svg)](https://crates.io/crates/sqlstate)
 [![API docs](https://docs.rs/sqlstate/badge.svg)](https://docs.rs/sqlstate)
 
-A more human-readable representation of SQLSTATE error codes.
+Representations and parsing logic for [`SQLSTATE`](https://en.wikipedia.org/wiki/SQLSTATE)
+return codes.
 
 `sqlstate` supports all standard SQL error codes as defined in ISO/IEC 9075.
 
