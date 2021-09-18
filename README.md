@@ -13,6 +13,7 @@ Databases may define custom error codes as well - `sqlstate` supports additional
 the following databases:
 
 - [PostgreSQL](https://www.postgresql.org/docs/current/errcodes-appendix.html)
+  (enable with feature `postgres`)
 
 ## Contributing
 

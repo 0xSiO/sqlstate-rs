@@ -21,6 +21,10 @@
 //! #     Ok(())
 //! # }
 //! ```
+//!
+//! # Features
+//!
+//! - `postgres`: Enables PostgreSQL-specific types.
 
 pub mod error;
 pub mod standard;
