@@ -8,28 +8,13 @@ pub mod standard;
 #[cfg_attr(docsrs, doc(cfg(feature = "postgres")))]
 pub mod postgres;
 
+#[cfg(feature = "postgres")]
+pub use postgres::wrapper::PostgresSqlState;
+
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum Category {
     Success,
     Warning,
     NoData,
     Exception,
-}
-
-#[cfg(feature = "postgres")]
-#[cfg_attr(docsrs, doc(cfg(feature = "postgres")))]
-#[derive(Clone, Eq, PartialEq, Hash, Debug)]
-pub enum PostgresSqlState {
-    Standard(standard::SqlState),
-    Custom(postgres::SqlState),
-}
-
-#[cfg(feature = "postgres")]
-impl std::str::FromStr for PostgresSqlState {
-    type Err = std::convert::Infallible;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(s.parse::<postgres::SqlState>()
-            .map_or_else(|_| Self::Standard(s.parse().unwrap()), Self::Custom))
-    }
 }

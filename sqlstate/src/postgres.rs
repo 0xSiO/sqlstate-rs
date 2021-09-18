@@ -1,6 +1,9 @@
 use sqlstate_macros::state;
 
+use crate::Category;
+
 pub mod class;
+pub(crate) mod wrapper;
 
 use self::class::*;
 
@@ -52,4 +55,13 @@ pub enum SqlState {
     PlPgSqlError(Option<PlPgSqlError>),
     #[class("XX")]
     InternalError(Option<InternalError>),
+}
+
+impl SqlState {
+    pub fn category(&self) -> Category {
+        match self {
+            Self::Warning(_) => Category::Warning,
+            _ => Category::Exception,
+        }
+    }
 }
