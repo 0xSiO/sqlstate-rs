@@ -17,6 +17,16 @@ assert_eq!("01007".parse::<SqlState>()?, SqlState::Warning(Some(PrivilegeNotGran
 assert_eq!("XX001".parse::<SqlState>()?, SqlState::Other(String::from("XX001")));
 ```
 
+Examining the pieces of a return code:
+```rust
+use sqlstate::standard::{class::Warning::PrivilegeNotGranted, SqlState};
+
+let success = SqlState::Success(None);
+let warning = SqlState::Warning(Some(PrivilegeNotGranted));
+assert_eq!((success.class(), success.subclass()), ("00", None));
+assert_eq!((warning.class(), warning.subclass()), ("01", Some("007")));
+```
+
 Parsing return codes specific to PostgreSQL:
 ```rust
 use sqlstate::{

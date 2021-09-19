@@ -22,18 +22,27 @@
 //! # }
 //! ```
 //!
+//! Examining the pieces of a return code:
+//! ```
+//! use sqlstate::standard::{class::Warning::PrivilegeNotGranted, SqlState};
+//!
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! let success = SqlState::Success(None);
+//! let warning = SqlState::Warning(Some(PrivilegeNotGranted));
+//! assert_eq!((success.class(), success.subclass()), ("00", None));
+//! assert_eq!((warning.class(), warning.subclass()), ("01", Some("007")));
+//! #     Ok(())
+//! # }
+//! ```
+//!
 //! Parsing return codes specific to PostgreSQL:
 //! ```
 //! use sqlstate::{
 //!     postgres::{
-//!         class::{
-//!             DataException::InvalidJsonText, InternalError::DataCorrupted,
-//!             OperatorIntervention::CrashShutdown,
-//!         },
+//!         class::{DataException::InvalidJsonText, InternalError::DataCorrupted},
 //!         SqlState::*,
 //!     },
-//!     standard,
-//!     PostgresSqlState,
+//!     standard, PostgresSqlState,
 //! };
 //!
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
