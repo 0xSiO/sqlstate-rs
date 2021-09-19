@@ -28,3 +28,27 @@ impl FromStr for PostgresSqlState {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn custom_category() {
+        assert_eq!(
+            PostgresSqlState::Custom(postgres::SqlState::Warning(Some(
+                postgres::Warning::DeprecatedFeature
+            )))
+            .category(),
+            Category::Warning
+        );
+    }
+
+    #[test]
+    fn fallback_standard_category() {
+        assert_eq!(
+            PostgresSqlState::Standard(standard::SqlState::Success(None)).category(),
+            Category::Success
+        );
+    }
+}
