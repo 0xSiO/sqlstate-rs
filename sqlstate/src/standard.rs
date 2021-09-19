@@ -8,7 +8,7 @@ pub mod class;
 
 use self::class::*;
 
-/// A representation for a standard SQLSTATE code.
+/// A representation for a standard `SQLSTATE` code.
 #[state(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]
