@@ -65,3 +65,77 @@ impl SqlState {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use crate::error::ParseError;
+
+    fn check(state: &str, value: SqlState) {
+        assert_eq!(state.parse::<SqlState>().unwrap(), value);
+    }
+
+    #[test]
+    fn categories() {
+        assert_eq!(
+            SqlState::Warning(Some(Warning::ImplicitZeroBitPadding)).category(),
+            Category::Warning
+        );
+        assert_eq!(
+            SqlState::InternalError(Some(InternalError::IndexCorrupted)).category(),
+            Category::Exception
+        );
+    }
+
+    #[test]
+    fn empty_class() {
+        check("0B000", SqlState::InvalidTransactionInitiation(None));
+        assert_eq!(
+            "0B001".parse::<SqlState>(),
+            Err(ParseError::UnknownSubclass(String::from("001"))),
+        );
+    }
+
+    #[test]
+    fn unknown_class() {
+        assert_eq!(
+            "QQ999".parse::<SqlState>(),
+            Err(ParseError::UnknownState(String::from("QQ999"))),
+        );
+    }
+
+    #[test]
+    fn one_subclass() {
+        check("F0000", SqlState::ConfigurationFileError(None));
+        check(
+            "F0001",
+            SqlState::ConfigurationFileError(Some(ConfigurationFileError::LockFileExists)),
+        );
+        assert_eq!(
+            "F000F".parse::<SqlState>(),
+            Err(ParseError::UnknownSubclass(String::from("00F"))),
+        );
+    }
+
+    #[test]
+    fn many_subclasses() {
+        check("57000", SqlState::OperatorIntervention(None));
+        check(
+            "57014",
+            SqlState::OperatorIntervention(Some(OperatorIntervention::QueryCanceled)),
+        );
+        check(
+            "57P01",
+            SqlState::OperatorIntervention(Some(OperatorIntervention::AdminShutdown)),
+        );
+        check(
+            "57P03",
+            SqlState::OperatorIntervention(Some(OperatorIntervention::CannotConnectNow)),
+        );
+        assert_eq!(
+            "57FFF".parse::<SqlState>(),
+            Err(ParseError::UnknownSubclass(String::from("FFF"))),
+        );
+    }
+}
