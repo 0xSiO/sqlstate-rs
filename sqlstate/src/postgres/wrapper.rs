@@ -35,19 +35,31 @@ mod tests {
 
     #[test]
     fn custom_category() {
+        use crate::postgres::{class::Warning, SqlState};
+
         assert_eq!(
-            PostgresSqlState::Custom(postgres::SqlState::Warning(Some(
-                postgres::Warning::DeprecatedFeature
-            )))
-            .category(),
+            PostgresSqlState::Custom(SqlState::Warning(Some(Warning::DeprecatedFeature)))
+                .category(),
             Category::Warning
         );
     }
 
     #[test]
+    fn invalid_length() {
+        for i in 0..5 {
+            assert_eq!(
+                "0".repeat(i).parse::<PostgresSqlState>(),
+                Err(ParseError::InvalidLength(i))
+            );
+        }
+    }
+
+    #[test]
     fn fallback_standard_category() {
+        use crate::standard::SqlState;
+
         assert_eq!(
-            PostgresSqlState::Standard(standard::SqlState::Success(None)).category(),
+            PostgresSqlState::Standard(SqlState::Success(None)).category(),
             Category::Success
         );
     }

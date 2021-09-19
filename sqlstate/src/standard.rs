@@ -147,6 +147,8 @@ impl SqlState {
 mod tests {
     use super::*;
 
+    use crate::error::ParseError;
+
     fn check(state: &str, value: SqlState) {
         assert_eq!(state.parse::<SqlState>().unwrap(), value);
     }
@@ -160,6 +162,16 @@ mod tests {
             SqlState::DynamicSqlError(Some(DynamicSqlError::InvalidDataTarget)).category(),
             Category::Exception
         );
+    }
+
+    #[test]
+    fn invalid_length() {
+        for i in 0..5 {
+            assert_eq!(
+                "0".repeat(i).parse::<SqlState>(),
+                Err(ParseError::InvalidLength(i))
+            );
+        }
     }
 
     #[test]

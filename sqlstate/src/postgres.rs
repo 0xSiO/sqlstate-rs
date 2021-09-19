@@ -89,6 +89,16 @@ mod tests {
     }
 
     #[test]
+    fn invalid_length() {
+        for i in 0..5 {
+            assert_eq!(
+                "0".repeat(i).parse::<SqlState>(),
+                Err(ParseError::InvalidLength(i))
+            );
+        }
+    }
+
+    #[test]
     fn empty_class() {
         check("0B000", SqlState::InvalidTransactionInitiation(None));
         assert_eq!(
