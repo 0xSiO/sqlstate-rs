@@ -51,4 +51,28 @@ mod tests {
             Category::Success
         );
     }
+
+    #[test]
+    fn parsing_custom() {
+        use crate::postgres::{class::OperatorIntervention, SqlState};
+
+        assert_eq!(
+            "57P01".parse::<PostgresSqlState>(),
+            Ok(PostgresSqlState::Custom(SqlState::OperatorIntervention(
+                Some(OperatorIntervention::AdminShutdown)
+            )))
+        );
+    }
+
+    #[test]
+    fn parsing_standard() {
+        use crate::standard::{class::Warning, SqlState};
+
+        assert_eq!(
+            "01002".parse::<PostgresSqlState>(),
+            Ok(PostgresSqlState::Standard(SqlState::Warning(Some(
+                Warning::DisconnectError
+            ))))
+        );
+    }
 }
