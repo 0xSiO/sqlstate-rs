@@ -1,6 +1,6 @@
 [package]
 name = "sqlstate"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["Luc Street <lucis-fluxum@users.noreply.github.com>"]
 description = "Representations and parsing logic for SQLSTATE return codes."
 repository = "https://github.com/lucis-fluxum/sqlstate-rs"
@@ -11,7 +11,7 @@ edition = "2018"
 postgres = []
 
 [dependencies]
-sqlstate-macros = { path = "../sqlstate-macros", version = "0.0.0" }
+sqlstate-macros = { path = "../sqlstate-macros", version = "0.1.0" }
 thiserror = "1.0.0"
 
 [package.metadata.docs.rs]
