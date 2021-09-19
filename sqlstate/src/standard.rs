@@ -1,3 +1,5 @@
+//! Abstractions for standard return codes.
+
 use sqlstate_macros::state;
 
 use crate::Category;
@@ -6,6 +8,7 @@ pub mod class;
 
 use self::class::*;
 
+/// A representation for a standard SQLSTATE code.
 #[state(standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]

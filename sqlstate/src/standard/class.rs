@@ -1,3 +1,5 @@
+//! Classes and subclasses for standard return codes.
+
 use sqlstate_macros::class;
 
 #[class(standard)]

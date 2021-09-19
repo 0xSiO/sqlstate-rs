@@ -2,6 +2,7 @@ use std::str::FromStr;
 
 use crate::{error::ParseError, postgres, standard, Category};
 
+/// A wrapper around both standard and PostgreSQL-specific `SQLSTATE` codes.
 #[cfg_attr(docsrs, doc(cfg(feature = "postgres")))]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum PostgresSqlState {

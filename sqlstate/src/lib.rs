@@ -74,6 +74,7 @@ pub use postgres::wrapper::PostgresSqlState;
 
 pub use standard::SqlState;
 
+/// A category for a given `SQLSTATE` code.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum Category {
     Success,

@@ -1,3 +1,5 @@
+//! Abstractions for PostgreSQL-specific return codes.
+
 use sqlstate_macros::state;
 
 use crate::Category;
@@ -7,6 +9,7 @@ pub(crate) mod wrapper;
 
 use self::class::*;
 
+/// A representation for a PostgreSQL-specific `SQLSTATE` code.
 #[state(non_standard)]
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[non_exhaustive]

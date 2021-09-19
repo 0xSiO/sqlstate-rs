@@ -1,3 +1,5 @@
+//! Classes and subclasses for PostgreSQL-specific return codes.
+
 use sqlstate_macros::class;
 
 #[class(non_standard)]
