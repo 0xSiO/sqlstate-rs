@@ -108,10 +108,57 @@ impl State {
             }
         }
     }
+
+    fn methods_impl(&self) -> TokenStream {
+        let state_ident = &self.state_enum.ident;
+
+        let class_arms = self
+            .classes
+            .iter()
+            .map(|(variant, code)| quote! { Self::#variant(_) => #code, });
+
+        let class_other_arm = if self.is_standard {
+            quote! { Self::Other(code) => &code[0..2], }
+        } else {
+            quote! {}
+        };
+
+        let subclass_arms = self.classes.iter().map(|(variant, _)| {
+            quote! { Self::#variant(opt) => opt.as_ref().map(|subclass| subclass.as_str()), }
+        });
+
+        let subclass_other_arm = if self.is_standard {
+            quote! { Self::Other(code) => Some(&code[2..]), }
+        } else {
+            quote! {}
+        };
+
+        quote! {
+            impl #state_ident {
+                pub fn class(&self) -> &str {
+                    match self {
+                        #(#class_arms)*
+                        #class_other_arm
+                    }
+                }
+
+                pub fn subclass(&self) -> Option<&str> {
+                    match self {
+                        #(#subclass_arms)*
+                        #subclass_other_arm
+                    }
+                }
+            }
+        }
+    }
 }
 
 impl ToTokens for State {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        tokens.append_all([self.enum_definition(), self.from_str_impl()]);
+        tokens.append_all([
+            self.enum_definition(),
+            self.methods_impl(),
+            self.from_str_impl(),
+        ]);
     }
 }

@@ -154,7 +154,27 @@ mod tests {
     }
 
     #[test]
-    fn categories() {
+    fn class() {
+        assert_eq!(SqlState::Success(None).class(), "00");
+        assert_eq!(SqlState::Warning(None).class(), "01");
+        assert_eq!(SqlState::DynamicSqlError(None).class(), "07");
+    }
+
+    #[test]
+    fn subclass() {
+        assert_eq!(SqlState::Success(None).subclass(), None);
+        assert_eq!(
+            SqlState::Warning(Some(Warning::InsufficientItemDescriptorAreas)).subclass(),
+            Some("005")
+        );
+        assert_eq!(
+            SqlState::DynamicSqlError(Some(DynamicSqlError::InvalidDataTarget)).subclass(),
+            Some("00D")
+        );
+    }
+
+    #[test]
+    fn category() {
         assert_eq!(SqlState::Success(None).category(), Category::Success);
         assert_eq!(SqlState::Warning(None).category(), Category::Warning);
         assert_eq!(SqlState::NoData(None).category(), Category::NoData);

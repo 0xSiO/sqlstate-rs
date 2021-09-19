@@ -77,7 +77,26 @@ mod tests {
     }
 
     #[test]
-    fn categories() {
+    fn class() {
+        assert_eq!(SqlState::Warning(None).class(), "01");
+        assert_eq!(SqlState::InternalError(None).class(), "XX");
+    }
+
+    #[test]
+    fn subclass() {
+        assert_eq!(SqlState::SnapshotFailure(None).subclass(), None);
+        assert_eq!(
+            SqlState::Warning(Some(Warning::DeprecatedFeature)).subclass(),
+            Some("P01")
+        );
+        assert_eq!(
+            SqlState::InternalError(Some(InternalError::DataCorrupted)).subclass(),
+            Some("001")
+        );
+    }
+
+    #[test]
+    fn category() {
         assert_eq!(
             SqlState::Warning(Some(Warning::ImplicitZeroBitPadding)).category(),
             Category::Warning
