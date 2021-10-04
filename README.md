@@ -19,6 +19,10 @@ the following databases:
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/lucis-fluxum/sqlstate-rs.
 
+## Donations
+
+- XMR: `897nnoGrV66gUQMwE1Z7ou61TNzXTs8dM14Q6d2bQuhX7WqWW37boxa4CSbXWPhtdfTxwLb46s2bRHE6tUEsvtnC9iduxjy`
+
 ## License
 
 These crates are available as open source under the terms of the
