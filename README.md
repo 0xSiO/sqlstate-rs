@@ -1,5 +1,5 @@
 # sqlstate-rs
-[![CI](https://github.com/lucis-fluxum/sqlstate-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/lucis-fluxum/sqlstate-rs/actions/workflows/ci.yml)
+[![CI](https://github.com/0xSiO/sqlstate-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/0xSiO/sqlstate-rs/actions/workflows/ci.yml)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![crates.io](https://img.shields.io/crates/v/sqlstate.svg)](https://crates.io/crates/sqlstate)
 [![API docs](https://docs.rs/sqlstate/badge.svg)](https://docs.rs/sqlstate)
@@ -17,7 +17,7 @@ the following databases:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/lucis-fluxum/sqlstate-rs.
+Bug reports and pull requests are welcome on GitHub at https://github.com/0xSiO/sqlstate-rs.
 
 ## Donations
 

@@ -1,9 +1,8 @@
 [package]
 name = "sqlstate-macros"
 version = "0.1.0"
-authors = ["Luc Street <lucis-fluxum@users.noreply.github.com>"]
 description = "Procedural macros for sqlstate."
-repository = "https://github.com/lucis-fluxum/sqlstate-rs"
+repository = "https://github.com/0xSiO/sqlstate-rs"
 license = "MIT"
 edition = "2018"
 
