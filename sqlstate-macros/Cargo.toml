@@ -3,7 +3,7 @@ name = "sqlstate-macros"
 version = "0.1.0"
 description = "Procedural macros for sqlstate."
 repository = "https://github.com/0xSiO/sqlstate-rs"
-license = "MIT"
+license = "MPL-2.0"
 edition = "2018"
 
 [lib]
