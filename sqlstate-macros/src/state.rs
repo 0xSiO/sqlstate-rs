@@ -57,7 +57,7 @@ impl State {
         }
     }
 
-    fn from_str_impl(&self) -> TokenStream {
+    fn generate_from_str_impl(&self) -> TokenStream {
         let class_ident = &self.state_enum.ident;
 
         let from_str_arms = self.classes.iter().map(|(variant, code)| {
@@ -123,7 +123,7 @@ impl State {
             quote! {}
         };
 
-        let subclass_arms = self.classes.iter().map(|(variant, _)| {
+        let subclass_arms = self.classes.keys().map(|variant| {
             quote! { Self::#variant(opt) => opt.as_ref().map(|subclass| subclass.as_str()), }
         });
 
@@ -158,7 +158,7 @@ impl ToTokens for State {
         tokens.append_all([
             self.enum_definition(),
             self.methods_impl(),
-            self.from_str_impl(),
+            self.generate_from_str_impl(),
         ]);
     }
 }
