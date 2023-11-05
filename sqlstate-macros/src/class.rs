@@ -57,7 +57,7 @@ impl Class {
         }
     }
 
-    fn from_str_impl(&self) -> TokenStream {
+    fn generate_from_str_impl(&self) -> TokenStream {
         let class_ident = &self.class_enum.ident;
 
         let err_type = if self.is_standard {
@@ -128,7 +128,7 @@ impl ToTokens for Class {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         tokens.append_all([
             self.enum_definition(),
-            self.from_str_impl(),
+            self.generate_from_str_impl(),
             self.as_str_impl(),
         ]);
     }

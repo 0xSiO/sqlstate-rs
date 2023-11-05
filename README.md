@@ -1,6 +1,5 @@
 # sqlstate-rs
 [![CI](https://github.com/0xSiO/sqlstate-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/0xSiO/sqlstate-rs/actions/workflows/ci.yml)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![crates.io](https://img.shields.io/crates/v/sqlstate.svg)](https://crates.io/crates/sqlstate)
 [![API docs](https://docs.rs/sqlstate/badge.svg)](https://docs.rs/sqlstate)
 
@@ -17,16 +16,6 @@ the following databases:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/0xSiO/sqlstate-rs.
-
-## Donations
-
-- XMR: `897nnoGrV66gUQMwE1Z7ou61TNzXTs8dM14Q6d2bQuhX7WqWW37boxa4CSbXWPhtdfTxwLb46s2bRHE6tUEsvtnC9iduxjy`
-
-## License
-
-These crates are available as open source under the terms of the
-[MIT License](https://opensource.org/licenses/MIT).
-
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in
-`sqlstate-rs` by you shall be licensed as MIT, without any additional terms or conditions.
+- Contributions to this project must be submitted under the [project's license](./LICENSE).
+- Contributors to this project must attest to the [Developer Certificate of Origin](https://developercertificate.org/) by including a `Signed-off-by` statement in all commit messages.
+- All commits must have a valid digital signature.

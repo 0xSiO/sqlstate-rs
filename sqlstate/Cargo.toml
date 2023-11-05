@@ -5,7 +5,7 @@ description = "Representations and parsing logic for SQLSTATE return codes."
 repository = "https://github.com/0xSiO/sqlstate-rs"
 keywords = ["sql", "error"]
 categories = ["database", "data-structures"]
-license = "MIT"
+license = "MPL-2.0"
 edition = "2018"
 
 [features]
